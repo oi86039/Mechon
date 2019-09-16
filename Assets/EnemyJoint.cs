@@ -19,4 +19,9 @@ public class EnemyJoint : MonoBehaviour
     void OnTriggerEnter(Collider other) {
         SendMessageUpwards("Die");
     }
+
+    void OnCollisionEnter(Collision other)
+    {
+        SendMessageUpwards("Die");
+    }
 }
