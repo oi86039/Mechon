@@ -17,6 +17,8 @@ using System.Collections;
 /// </summary>
 public class TeleportTransitionBlink : TeleportTransition
 {
+    public Animator anim;
+
 	/// <summary>
 	/// How long the transition takes. Usually this is greater than Teleport Delay.
 	/// </summary>
@@ -53,11 +55,15 @@ public class TeleportTransitionBlink : TeleportTransition
 	/// <returns></returns>
 	protected IEnumerator BlinkCoroutine()
 	{
-		LocomotionTeleport.IsTransitioning = true;
+
+        LocomotionTeleport.IsTransitioning = true;
 		float elapsedTime = 0;
 		var teleportTime = TransitionDuration * TeleportDelay;
 		var teleported = false;
-		while (elapsedTime < TransitionDuration)
+
+        anim.SetTrigger("Tport");
+
+        while (elapsedTime < TransitionDuration)
 		{
 			yield return null;
 			elapsedTime += Time.deltaTime;
@@ -66,12 +72,14 @@ public class TeleportTransitionBlink : TeleportTransition
 				teleported = true;
 				LocomotionTeleport.DoTeleport();
 			}
-			//float fadeLevel = FadeLevels.Evaluate(elapsedTime / TransitionDuration);
-			//OVRInspector.instance.fader.SetFadeLevel(fadeLevel);
-		}
+            //float fadeLevel = FadeLevels.Evaluate(elapsedTime / TransitionDuration);
+            //OVRInspector.instance.fader.SetFadeLevel(fadeLevel);
+            Debug.Log("FADE IN NOW PLS");
+            
+        }
 
-		//OVRInspector.instance.fader.SetFadeLevel(0);
+        //OVRInspector.instance.fader.SetFadeLevel(0);
 
-		LocomotionTeleport.IsTransitioning = false;
+        LocomotionTeleport.IsTransitioning = false;
 	}
 }

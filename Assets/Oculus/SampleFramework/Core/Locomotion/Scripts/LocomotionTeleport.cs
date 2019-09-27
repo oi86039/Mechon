@@ -784,7 +784,7 @@ public class LocomotionTeleport : MonoBehaviour
 		characterTransform.position = destPosition;
 		characterTransform.rotation = destRotation;
 
-		LocomotionController.PlayerController.Teleported = true;
+		//LocomotionController.PlayerController.Teleported = true;
 	}
 
 	/// <summary>
