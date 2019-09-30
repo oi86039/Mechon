@@ -133,7 +133,7 @@ public class OVRPlayerController : MonoBehaviour
 	public bool RotationEitherThumbstick = false;
 
 	protected CharacterController Controller = null;
-	protected OVRCameraRig CameraRig = null;
+	public OVRCameraRig CameraRig = null;
 
 	private float MoveScale = 1.0f;
 	private Vector3 MoveThrottle = Vector3.zero;
@@ -165,18 +165,18 @@ public class OVRPlayerController : MonoBehaviour
 		if (Controller == null)
 			Debug.LogWarning("OVRPlayerController: No CharacterController attached.");
 
-		// We use OVRCameraRig to set rotations to cameras,
-		// and to be influenced by rotation
-		OVRCameraRig[] CameraRigs = gameObject.GetComponentsInChildren<OVRCameraRig>();
+        // We use OVRCameraRig to set rotations to cameras,
+        // and to be influenced by rotation
+        OVRCameraRig[] CameraRigs = gameObject.GetComponentsInChildren<OVRCameraRig>();
 
-		if (CameraRigs.Length == 0)
-			Debug.LogWarning("OVRPlayerController: No OVRCameraRig attached.");
-		else if (CameraRigs.Length > 1)
-			Debug.LogWarning("OVRPlayerController: More then 1 OVRCameraRig attached.");
-		else
-			CameraRig = CameraRigs[0];
+        if (CameraRigs.Length == 0)
+            Debug.LogWarning("OVRPlayerController: No OVRCameraRig attached.");
+        else if (CameraRigs.Length > 1)
+            Debug.LogWarning("OVRPlayerController: More then 1 OVRCameraRig attached.");
+        else
+            CameraRig = CameraRigs[0];
 
-		InitialYRotation = transform.rotation.eulerAngles.y;
+        InitialYRotation = transform.rotation.eulerAngles.y;
 	}
 
 	void OnEnable()

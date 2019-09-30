@@ -18,6 +18,7 @@ public class Gun : MonoBehaviour
     {
         if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger))
         {
+            Debug.Log("Fire");
             GameObject c = Instantiate(bullet, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
         }
     }
