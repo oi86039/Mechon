@@ -16,7 +16,7 @@ public class Gun : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-
+        //Draw debug laser pointer
         Debug.DrawRay(bulletSpawnPoint.position, bulletSpawnPoint.up * 50, Color.red);
 
         if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger))
