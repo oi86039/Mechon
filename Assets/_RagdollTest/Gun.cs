@@ -14,12 +14,15 @@ public class Gun : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
+
+        Debug.DrawRay(bulletSpawnPoint.position, bulletSpawnPoint.up * 50, Color.red);
+
         if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger))
         {
             Debug.Log("Fire");
-            GameObject c = Instantiate(bullet, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+            Instantiate(bullet, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
         }
     }
 }

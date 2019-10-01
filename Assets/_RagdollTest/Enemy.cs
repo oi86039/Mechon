@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         //Put this on the player controller/gun instead
         if (OVRInput.GetDown(OVRInput.Button.Start))

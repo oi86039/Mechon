@@ -5,21 +5,19 @@ using UnityEngine;
 public class bullet : MonoBehaviour
 {
 
-    Rigidbody rb;
+   public Rigidbody rb;
     public float speed;
     public float time;
 
     float timer;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        rb = GetComponent<Rigidbody>();
-       
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         timer += Time.deltaTime;
 
