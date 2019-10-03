@@ -6,10 +6,12 @@ public class Gun : MonoBehaviour
 {
     public GameObject bullet;
     public Transform bulletSpawnPoint;
+    public Animator scopeAnim;
 
     // Start is called before the first frame update
     void Start()
     {
+        scopeAnim.SetBool("On", false); //Set On if off, and off if on
 
     }
 
@@ -23,6 +25,13 @@ public class Gun : MonoBehaviour
         {
             Debug.Log("Fire");
             Instantiate(bullet, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+        }
+
+        //Show Sight
+        if (OVRInput.GetDown(OVRInput.Button.Two))
+        {
+            bool gunOn = scopeAnim.GetBool("On");
+            scopeAnim.SetBool("On", !gunOn); //Set On if off, and off if on
         }
     }
 }
