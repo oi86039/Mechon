@@ -11,8 +11,11 @@ public class SnapObj : MonoBehaviour
     Transform RightAnchor;
     OVRGrabbable grabbable;
 
+    public bool canSnap;
     public GameObject hologram; //Show little hologram of where destination is
     public Transform snapDestination; //Destination of where snap should end up
+    public bool isSnapped; //Is object snapped on or not?
+    public bool isGrabbed; //Is object snapped on or not?
 
     public float grabRange;
     public float snapRange;
@@ -43,25 +46,30 @@ public class SnapObj : MonoBehaviour
         //If grabbing object
         if (grabbable.grabbedBy == LeftGrabber)
         {
+            isGrabbed = true;
             Snap(LeftGrabber, LeftAnchor);
         }
         else if (grabbable.grabbedBy == RightGrabber)
         {
+            isGrabbed = true;
             Snap(RightGrabber, RightAnchor);
         }
         //If not grabbed
         else
         {
+            isGrabbed = false;
             //if snapped object is in place, set to kinematic
             if (transform.parent == snapDestination)
             {
                 rb.isKinematic = true;
+                isSnapped = true;
             }
 
             //else set to non kinematic
             else
             {
                 rb.isKinematic = false;
+                isSnapped = false;
             }
 
             //Set hologram off
@@ -105,7 +113,7 @@ public class SnapObj : MonoBehaviour
             transform.SetParent(null);
         }
 
-        else
+        else 
         {
             hologram.SetActive(false);
             //snap
@@ -132,5 +140,7 @@ public class SnapObj : MonoBehaviour
 
         }
     }
+
+
 }
 

@@ -125,4 +125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 2846994906848265881}
   speed: 192.03
+  explosionForce: 0
+  explosionRadius: 0
   time: 0.4
+  ignoreColliders: []

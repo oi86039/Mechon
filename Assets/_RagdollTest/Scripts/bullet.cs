@@ -7,7 +7,10 @@ public class bullet : MonoBehaviour
 
    public Rigidbody rb;
     public float speed;
+    public float explosionForce;
+    public float explosionRadius;
     public float time;
+    public GameObject explosionFX;
 
     float timer;
 
@@ -33,6 +36,17 @@ public class bullet : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-       // timer = 4.9f;
+        
+            rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
+        //Play particle explosion effect at position
+        Instantiate(explosionFX,transform.position, transform.rotation);
+        //StartCoroutine(Destroy());
+        Destroy(gameObject);
     }
+
+    //IEnumerator Destroy() {
+    //    yield return new WaitForEndOfFrame();
+    //    Destroy(gameObject);
+    //}
+
 }
