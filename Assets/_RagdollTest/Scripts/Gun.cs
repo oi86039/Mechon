@@ -10,6 +10,8 @@ public class Gun : MonoBehaviour
     public Animator scopeAnim;
     public TextMeshProUGUI ammoDisplay;
 
+    public GameObject camera;
+
     public Animator recoil;
     public bool canFire;
 
@@ -47,6 +49,11 @@ public class Gun : MonoBehaviour
             bool gunOn = scopeAnim.GetBool("On");
             scopeAnim.SetBool("On", !gunOn); //Set On if off, and off if on
         }
+
+        //Move Camera Shot if placed
+        Vector2 CameraMov = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick);
+        camera.transform.Rotate(Vector3.left*CameraMov.y);
+        camera.transform.Rotate(Vector3.up*CameraMov.x);
         canFire = false;
 
     }

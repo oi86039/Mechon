@@ -9,7 +9,7 @@ public class SnapObj : MonoBehaviour
     Transform LeftAnchor;
     OVRGrabber RightGrabber;
     Transform RightAnchor;
-    OVRGrabbable grabbable;
+    public OVRGrabbable grabbable;
 
     public bool canSnap;
     public GameObject hologram; //Show little hologram of where destination is
@@ -23,9 +23,7 @@ public class SnapObj : MonoBehaviour
     Rigidbody rb;
     Outline outline;
 
-    public Collider[] ignoreColliders;
-    Collider thisCollider;
-
+   
     void Awake()
     {
         LeftGrabber = GameObject.Find("hand_left").GetComponent<OVRGrabber>();
@@ -37,7 +35,6 @@ public class SnapObj : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         outline = gameObject.AddComponent<Outline>();
 
-        thisCollider = GetComponent<Collider>();
     }
 
     // Update is called once per frame
@@ -113,7 +110,7 @@ public class SnapObj : MonoBehaviour
             transform.SetParent(null);
         }
 
-        else 
+        else
         {
             hologram.SetActive(false);
             //snap
@@ -126,19 +123,22 @@ public class SnapObj : MonoBehaviour
         }
     }
 
+    public void ForceUnsnap()
+    {
+        if (!isGrabbed)
+        {
+            isSnapped = false;
+            transform.SetParent(null);
+            rb.isKinematic = false;
+
+            //Launch obj after unsnap
+            rb.AddForce((transform.right * -1.5f) + (transform.up * 0.8f), ForceMode.Impulse);
+        }
+    }
+
     void OnCollisionEnter(Collision collision)
     {
-        if (ignoreColliders.Length > 0)
-        {
-            for (int i = 0; i < ignoreColliders.Length; i++)
-            {
-                if (collision.collider == ignoreColliders[i])
-                {
-                    Physics.IgnoreCollision(collision.collider, thisCollider);
-                }
-            }
-
-        }
+        
     }
 
 

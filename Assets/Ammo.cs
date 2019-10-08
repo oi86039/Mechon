@@ -22,6 +22,12 @@ public class Ammo : SnapObj
             SendMessageUpwards("CanFire");
            
         }
+
+        if (ammo <= 0) {
+            ForceUnsnap();
+            Destroy(grabbable);
+            Destroy(this);
+        }
         //else {
         //    ammoDisplay.text = "0";
         //    ammoDisplay.color = Color.red;
