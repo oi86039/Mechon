@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using TMPro;
 
@@ -26,6 +27,12 @@ public class Gun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Restart Scene (Debug)
+        if (OVRInput.GetDown(OVRInput.Button.Start))
+        {
+            SceneManager.LoadScene(0);
+        }
+
         if (!canFire)
         {
             ammoDisplay.color = Color.red;
