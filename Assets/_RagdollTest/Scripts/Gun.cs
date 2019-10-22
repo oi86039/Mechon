@@ -38,11 +38,14 @@ public class Gun : MonoBehaviour
 
         if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger) && canFire)
         {
-            Debug.Log("Fire");
-            Instantiate(bullet, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
-            recoil.SetTrigger("Fire");
-            shootFX.Play();
-            BroadcastMessage("SubtractAmmo");
+            if (recoil.GetBool("StayOpen") == false)
+            {
+                Debug.Log("Fire");
+                Instantiate(bullet, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+                recoil.SetTrigger("Fire");
+                shootFX.Play();
+                BroadcastMessage("SubtractAmmo");
+            }
         }
 
         //Show Sight
@@ -54,22 +57,39 @@ public class Gun : MonoBehaviour
 
         //Move Camera Shot if placed
         Vector2 CameraMov = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick);
-        camera.transform.Rotate(Vector3.left*CameraMov.y);
-        camera.transform.Rotate(Vector3.up*CameraMov.x);
+        camera.transform.Rotate(Vector3.left * CameraMov.y);
+        camera.transform.Rotate(Vector3.up * CameraMov.x);
         canFire = false;
+
+        //Open Disabler if button is held down
+        if (OVRInput.Get(OVRInput.Button.One))
+        {
+            // recoil.SetTrigger("Open");
+            recoil.SetBool("StayOpen", true);
+        }
+        //if (OVRInput.GetUp(OVRInput.Button.One))
+        else
+        {
+            recoil.SetBool("StayOpen", false);
+            //recoil.SetTrigger("Close");
+        }
+        //Close Disabler once button is not held down
 
     }
 
-    void DisplayAmmo(float ammo) {
+    void DisplayAmmo(float ammo)
+    {
         ammoDisplay.color = Color.white;
         ammoDisplay.text = ammo.ToString();
     }
 
-    void CanFire() {
+    void CanFire()
+    {
         canFire = true;
     }
 
-    void CannotFire() {
+    void CannotFire()
+    {
         canFire = false;
     }
 
