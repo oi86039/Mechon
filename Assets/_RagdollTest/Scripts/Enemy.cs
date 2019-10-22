@@ -6,11 +6,13 @@ using UnityEngine.SceneManagement;
 public class Enemy : MonoBehaviour
 {
     public Rigidbody[] jointRigidBodies;
+    public Animator anim;
 
     // Start is called before the first frame update
     void Start()
     {
         jointRigidBodies = GetComponentsInChildren<Rigidbody>();
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -28,7 +30,7 @@ public class Enemy : MonoBehaviour
         foreach (Rigidbody rb in jointRigidBodies)
         {
             rb.isKinematic = false; //Enable Ragdoll
-
+            anim.enabled = false;
 
         }
 

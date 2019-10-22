@@ -200,6 +200,7 @@ GameObject:
   - component: {fileID: 2733712380356555341}
   - component: {fileID: 2733712380356555346}
   - component: {fileID: 2733712380356555347}
+  - component: {fileID: 1445083827}
   m_Layer: 9
   m_Name: Revolver
   m_TagString: Untagged
@@ -214,7 +215,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2733712380356555345}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0.53, y: 1.471, z: 3.68}
   m_LocalScale: {x: 0.06, y: 0.06862901, z: 0.07}
   m_Children:
@@ -307,6 +308,26 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1445083827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2733712380356555345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c613f02863ee67644928858ca3ad5b88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grabbable: {fileID: 0}
+  canSnap: 0
+  hologram: {fileID: 0}
+  snapDestination: {fileID: 0}
+  isSnapped: 0
+  isGrabbed: 0
+  grabRange: 0.35
+  snapRange: 0.2
 --- !u!1 &2733712380479160977
 GameObject:
   m_ObjectHideFlags: 0

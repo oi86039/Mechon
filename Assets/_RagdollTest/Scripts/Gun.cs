@@ -6,6 +6,7 @@ using TMPro;
 public class Gun : MonoBehaviour
 {
     public GameObject bullet;
+    public ParticleSystem shootFX;
     public Transform bulletSpawnPoint;
     public Animator scopeAnim;
     public TextMeshProUGUI ammoDisplay;
@@ -40,6 +41,7 @@ public class Gun : MonoBehaviour
             Debug.Log("Fire");
             Instantiate(bullet, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
             recoil.SetTrigger("Fire");
+            shootFX.Play();
             BroadcastMessage("SubtractAmmo");
         }
 
