@@ -7,12 +7,14 @@ public class Enemy : MonoBehaviour
 {
     public Rigidbody[] jointRigidBodies;
     public Animator anim;
+    public bool dead; //Is the enemy ragdoll/dead?
 
     // Start is called before the first frame update
     void Start()
     {
         jointRigidBodies = GetComponentsInChildren<Rigidbody>();
         anim = GetComponent<Animator>();
+        dead = false;
     }
 
     // Update is called once per frame
@@ -33,6 +35,7 @@ public class Enemy : MonoBehaviour
             anim.enabled = false;
 
         }
+        dead = true;
 
     }
 

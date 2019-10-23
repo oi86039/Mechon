@@ -8,6 +8,14 @@ public class RobotAi : MonoBehaviour
     public GameObject robot;
     public GameObject player;
 
+
+    [Header("Omar's Vars")]
+    public Enemy enemyScript;
+
+    public Transform firePoint; //Point in which the projectile of the robot will fire from
+
+    public float range; //maximum distance where robot will look towards player
+
     Quaternion RotationTowardsPlayer()
     {
         Vector3 lookVector = player.transform.position - robot.transform.position;
@@ -30,7 +38,7 @@ public class RobotAi : MonoBehaviour
 
     bool IsPlayerInRange()
     {
-        return DistanceBetweenRobotAndPlayer() <= 100f;
+        return DistanceBetweenRobotAndPlayer() <= range;
     }
 
     void KeepLookingAtPlayer()
@@ -40,13 +48,18 @@ public class RobotAi : MonoBehaviour
 
     void ShootAtPlayer()
     {
-        var fired = Instantiate(bullet, robot.transform.position, RotationTowardsPlayer() * robot.transform.rotation);
+        //var fired = Instantiate(bullet, robot.transform.position, RotationTowardsPlayer() * robot.transform.rotation);
+        var fired = Instantiate(bullet, firePoint.transform.position, firePoint.transform.rotation);
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("UpdateShoot", 10, 10);
+        //InvokeRepeating("UpdateShoot", 10, 10);
+        InvokeRepeating("UpdateShoot", 1.1f, 1.1f);
+
+        //Get enemyScript for joints.
+        enemyScript = GetComponent<Enemy>();
     }
 
     /// <summary>
@@ -64,11 +77,17 @@ public class RobotAi : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-  
+
         if (IsPlayerInRange())
         {
             // Make sure we stay pointed at the player
             KeepLookingAtPlayer();
+        }
+
+        //Destroy this AI script if enemy is dead
+        if (enemyScript.dead)
+        {
+            Destroy(this);
         }
     }
 }
