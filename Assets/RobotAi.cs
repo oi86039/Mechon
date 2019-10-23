@@ -7,9 +7,6 @@ public class RobotAi : MonoBehaviour
     public GameObject bullet;
     public GameObject robot;
     public GameObject player;
-    int timeout = 100;
-
-    private GameObject launchedProjectile = null;
 
     Quaternion RotationTowardsPlayer()
     {
@@ -31,6 +28,11 @@ public class RobotAi : MonoBehaviour
         return (robot.transform.position - player.transform.position).magnitude;
     }
 
+    bool IsPlayerInRange()
+    {
+        return DistanceBetweenRobotAndPlayer() <= 100f;
+    }
+
     void KeepLookingAtPlayer()
     {
         robot.transform.rotation = Quaternion.Slerp(transform.rotation, RotationTowardsPlayer(), Time.deltaTime * 1f);
@@ -38,49 +40,35 @@ public class RobotAi : MonoBehaviour
 
     void ShootAtPlayer()
     {
-        var bulletSpawnPoint = Transform.Instantiate(robot.transform);
-        bulletSpawnPoint.rotation = RotationTowardsPlayer() * bulletSpawnPoint.rotation;
-
-        if (timeout <= 0)
-        {
-            timeout = 100;
-        }
-
-
-        //Draw debug laser pointer
-        if (timeout == 100)
-            launchedProjectile = Instantiate(bullet, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
-
-
-
-        timeout -= 1;
+        var fired = Instantiate(bullet, robot.transform.position, RotationTowardsPlayer() * robot.transform.rotation);
     }
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        InvokeRepeating("UpdateShoot", 10, 10);
+    }
+
+    /// <summary>
+    /// Handle the update loop for shooting at the player.
+    /// </summary>
+    void UpdateShoot()
+    {
+        if (IsPlayerInRange() && IsLookingAtPlayer())
+        {
+            Debug.Log("UpdateShoot at player");
+            ShootAtPlayer();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
   
-        if (DistanceBetweenRobotAndPlayer() > 100)
+        if (IsPlayerInRange())
         {
-            // Player is too far away. Ignore them.
-            return;
+            // Make sure we stay pointed at the player
+            KeepLookingAtPlayer();
         }
-
-        // Make sure we stay pointed at the player
-        KeepLookingAtPlayer();
-
-        // If player is within our FOV, attack them
-        if (IsLookingAtPlayer())
-        {
-
-            Debug.Log("Looking at player");
-
-            //ShootAtPlayer();
-        } 
     }
 }
