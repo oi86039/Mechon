@@ -6,14 +6,14 @@ using UnityEngine.SceneManagement;
 public class Enemy : MonoBehaviour
 {
     public Rigidbody[] jointRigidBodies;
-    public Animator anim;
+    //public Animator anim;
     public bool dead; //Is the enemy ragdoll/dead?
 
     // Start is called before the first frame update
     void Start()
     {
         jointRigidBodies = GetComponentsInChildren<Rigidbody>();
-        anim = GetComponent<Animator>();
+      //  anim = GetComponent<Animator>();
         dead = false;
     }
 
@@ -32,7 +32,7 @@ public class Enemy : MonoBehaviour
         foreach (Rigidbody rb in jointRigidBodies)
         {
             rb.isKinematic = false; //Enable Ragdoll
-            anim.enabled = false;
+           // anim.enabled = false;
 
         }
         dead = true;
