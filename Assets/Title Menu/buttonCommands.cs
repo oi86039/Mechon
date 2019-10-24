@@ -34,7 +34,11 @@ public class buttonCommands : MonoBehaviour
 	
 	public void pressMe() {
         anime.SetTrigger("ifPressed");
-        mechonLogo.SetActive(false);
 	}
+
+    public void OnTriggerEnter(Collider other)
+    {
+        pressMe();
+    }
 
 }
