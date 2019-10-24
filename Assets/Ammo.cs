@@ -11,6 +11,8 @@ public class Ammo : SnapObj
     // Start is called before the first frame update
     void Start()
     {
+        
+
     }
 
     // Update is called once per frame
@@ -19,14 +21,11 @@ public class Ammo : SnapObj
         if (isSnapped && !isGrabbed && ammo > 0)
         {
             SendMessageUpwards("DisplayAmmo", ammo);
-            SendMessageUpwards("CanFire");
-           
+            SendMessageUpwards("CanFire");           
         }
 
         if (ammo <= 0) {
-            ForceUnsnap();
-            Destroy(grabbable);
-            Destroy(this);
+            Destroy(this.gameObject);
         }
         //else {
         //    ammoDisplay.text = "0";
