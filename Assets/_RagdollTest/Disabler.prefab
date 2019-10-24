@@ -6392,7 +6392,6 @@ MonoBehaviour:
   bulletSpawnPoint: {fileID: 5511157132437925930}
   scopeAnim: {fileID: 5511157132261997039}
   ammoDisplay: {fileID: 5511157131339757069}
-  camera: {fileID: 0}
   recoil: {fileID: 5511157132672094800}
   canFire: 0
 --- !u!114 &5511157132672094803

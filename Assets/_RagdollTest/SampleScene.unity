@@ -4643,11 +4643,6 @@ PrefabInstance:
       propertyPath: m_snapOffset
       value: 
       objectReference: {fileID: 1793522876}
-    - target: {fileID: 5511157132672094802, guid: 15dfb68d4e0c3bb499ca189906b4c9ce,
-        type: 3}
-      propertyPath: camera
-      value: 
-      objectReference: {fileID: 244652316}
     - target: {fileID: 5511157132672094803, guid: 15dfb68d4e0c3bb499ca189906b4c9ce,
         type: 3}
       propertyPath: hologram
