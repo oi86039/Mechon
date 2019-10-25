@@ -69,7 +69,7 @@ public class RobotAi : MonoBehaviour
     void Start()
     {
 
-        player = GameObject.Find("Player");
+        //player = GameObject.Find("Player");
 
         //InvokeRepeating("UpdateShoot", 10, 10);
         InvokeRepeating("UpdateShoot", 1.1f, 1.1f);
@@ -85,8 +85,12 @@ public class RobotAi : MonoBehaviour
     {
         if (IsPlayerInRange() && IsLookingAtPlayer())
         {
+            range = 11;
             Debug.Log("UpdateShoot at player");
             ShootAtPlayer();
+        }
+        else {
+            range = 8;
         }
     }
 

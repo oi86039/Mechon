@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Gun : MonoBehaviour
 {
@@ -19,14 +20,24 @@ public class Gun : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         scopeAnim.SetBool("On", false); //Set On if off, and off if on
         recoil = GetComponent<Animator>();
         ammoDisplay = GameObject.Find("AmmoDisplay").GetComponent<TextMeshProUGUI>();
     }
 
+
     // Update is called once per frame
     void Update()
     {
+        //Restart on start button
+        //Put this on the player controller/gun instead
+        if (OVRInput.GetDown(OVRInput.Button.Start))
+        {
+            SceneManager.LoadScene(0);
+        }
+
+
         if (!canFire)
         {
             ammoDisplay.color = Color.red;

@@ -5,10 +5,10 @@ using UnityEngine;
 public class SnapObj : MonoBehaviour
 {
 
-    OVRGrabber LeftGrabber;
-    Transform LeftAnchor;
-    OVRGrabber RightGrabber;
-    Transform RightAnchor;
+    public OVRGrabber LeftGrabber;
+    public Transform LeftAnchor;
+    public OVRGrabber RightGrabber;
+    public Transform RightAnchor;
     public OVRGrabbable grabbable;
 
     public bool canSnap;
@@ -26,10 +26,10 @@ public class SnapObj : MonoBehaviour
    
     void Awake()
     {
-        LeftGrabber = GameObject.Find("hand_left").GetComponent<OVRGrabber>();
-        LeftAnchor = GameObject.Find("LeftHandAnchor").transform;
-        RightGrabber = GameObject.Find("hand_right").GetComponent<OVRGrabber>();
-        RightAnchor = GameObject.Find("RightHandAnchor").transform;
+        ///LeftGrabber = GameObject.Find("hand_left").GetComponent<OVRGrabber>();
+        ///LeftAnchor = GameObject.Find("LeftHandAnchor").transform;
+        ///RightGrabber = GameObject.Find("hand_right").GetComponent<OVRGrabber>();
+        ///RightAnchor = GameObject.Find("RightHandAnchor").transform;
         grabbable = GetComponent<OVRGrabbable>();
 
         rb = GetComponent<Rigidbody>();
