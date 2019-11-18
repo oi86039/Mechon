@@ -17817,11 +17817,6 @@ PrefabInstance:
       propertyPath: m_ConnectedAnchor.z
       value: 0.04193458
       objectReference: {fileID: 0}
-    - target: {fileID: 5287700784641575281, guid: a5ea6bf3cdef1094e8a232b8f2835252,
-        type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 5757532619551149883}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5ea6bf3cdef1094e8a232b8f2835252, type: 3}
 --- !u!1001 &1004843156
@@ -61737,7 +61732,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e6adf602c16694092871775f14bf46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 0}
   health: 3
   anim: {fileID: 5757532620024587457}
 --- !u!4 &5757532619639388952
