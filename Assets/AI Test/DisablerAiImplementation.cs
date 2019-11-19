@@ -53,6 +53,11 @@ namespace DisablerAi_Implemented
         public IDisabler Disabler { get { return Disabler; } set { Disabler = value; } }
         public ILocation Location { get { return Location; } set { Location = value; } }  /**Current Location of the Player*/
 
+        public Player(IDisabler Disabler, ILocation Location) {
+            this.Disabler = Disabler;
+            this.Location = Location;
+        }
+
         public List<IItem> NearestItems()
         {
             throw new System.NotImplementedException();
@@ -71,6 +76,15 @@ namespace DisablerAi_Implemented
     {
         GameObject gameObject; /**Robot's gameobject*/
         /**Player's gameobject*/
+
+        //Place constructor here
+        public Robot(ILocation Location, ILocation Target, ILocation PatrolStart, ILocation PatrolEnd, List<ILocation> PointsOfInterest,RobotAnimation PlayingAnimation, IRobotHead Head) {
+            this.Location = Location;
+            this.Target = Target;
+            this.PatrolStart = PatrolStart;
+            this.
+        }
+
 
         public ILocation Location { get { return Location; } set { Location = value; } }                                  /**Current Location of this robot*/
         public ILocation Target { get { return Target; } set { Target = value; } }                                        /**Current Location that the robot is walking towards*/
@@ -112,10 +126,15 @@ namespace DisablerAi_Implemented
     /**
      * @brief Represents the Robot's head for headshots and the like
      */
-    public class RobotHead
+    public class RobotHead : IRobotHead
     {
-        public Location Location { get { return Location; } set { Location = value; } }
+        public ILocation Location { get { return Location; } set { Location = value; } }
         public bool Shot { get { return Shot; } set { Shot = value; } }
+
+        public RobotHead(ILocation Location) {
+            this.Location = Location;
+            Shot = false;
+        }
     }
 
 }
