@@ -10,6 +10,7 @@ public class buttonCommands : MonoBehaviour
     public GameObject mechonLogo;
 
 	public Animator anime;
+    public GameObject tutorialStart;
 	
     // Start is called before the first frame update
     void Start()
@@ -34,6 +35,8 @@ public class buttonCommands : MonoBehaviour
 	
 	public void pressMe() {
         anime.SetTrigger("ifPressed");
+        tutorialStart.SetActive(true);
+
 	}
 
     public void OnTriggerEnter(Collider other)

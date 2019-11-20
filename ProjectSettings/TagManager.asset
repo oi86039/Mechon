@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ammo
+  - teleport
+  - buttonStart
   layers:
   - Default
   - TransparentFX
