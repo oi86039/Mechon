@@ -18,7 +18,16 @@ public class buttonCommands : MonoBehaviour
         
     }
 
-	public void Settings() {
+    private void Update()
+    {
+        Vector2 x_joy = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick);
+        if (x_joy.x != 0 || x_joy.y != 0 ) //if left trigger is used
+        {
+            tutorialStart.SetActive(false);
+        }
+    }
+
+    public void Settings() {
 	}
 
 	public void Exit() {
