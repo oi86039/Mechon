@@ -84,6 +84,8 @@ public class Enemy : MonoBehaviour
         //Update ai state
         ai.Think();
 
+        Debug.Log(ai.State);
+
         //Check AI state and adjust behavior accordingly
         switch (ai.State)
         {
@@ -168,28 +170,23 @@ public class Enemy : MonoBehaviour
             case RobotAiState.Hurt:
                 break;
 
-            case RobotAiState.Disabled: //dead
-                //DieNow();
+            case RobotAiState.Disabled: 
+                //Ragdoll
+                foreach (Rigidbody rb in jointRigidBodies)
+                {
+                    rb.isKinematic = false; //Enable Ragdoll
+                                            // anim.enabled = false;
+                }
                 break;
         }
     }
 
     private void Shot() //Call when hitting the body
     {
-        health--;
-        if (!dead)
+        ai.Robot.Shot = true;
+        //Flash blue if hit
+        if (ai.State != RobotAiState.Disabled)
             jointMeshRenderer.material.color = Color.cyan;
-
-        if (health <= 0)
-        {
-            health = 0;
-            foreach (Rigidbody rb in jointRigidBodies)
-            {
-                rb.isKinematic = false; //Enable Ragdoll
-                                        // anim.enabled = false;
-            }
-            dead = true;
-        }
     }
 
     #region Old Shot

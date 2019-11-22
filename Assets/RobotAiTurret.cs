@@ -105,9 +105,9 @@ public class RobotAiTurret : MonoBehaviour
         }
 
         //Destroy this AI script if enemy is dead
-        if (enemyScript.dead)
-        {
-            Destroy(this);
-        }
+       // if (enemyScript.dead)
+      //  {
+        //    Destroy(this);
+       // }
     }
 }

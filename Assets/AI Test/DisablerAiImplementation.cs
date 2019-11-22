@@ -16,7 +16,7 @@ namespace DisablerAi_Implemented
             this.Location = Location;
         }
 
-        public ILocation Location { get { return Location; } set { Location = value; } }  /**Current Location of this gun*/
+        public ILocation Location { get; set; }    /**Current Location of this gun*/
     }
 
     /**
@@ -29,7 +29,7 @@ namespace DisablerAi_Implemented
             this.Location = (ILocation)(Location);
         }
 
-        public ILocation Location { get { return Location; } set { Location = value; } }  /**Current Location of this item*/
+        public ILocation Location { get; set; }  /**Current Location of this item*/
 
         public void MarkForPlayer()
         {
@@ -42,18 +42,15 @@ namespace DisablerAi_Implemented
      */
     public class Location : ILocation
     {
-        public Vector3 position; //Location in real world space
+        public Vector3 Position { get; set; }  //Location in real world space
 
         public Location(Vector3 vector3)
         {
-            position = vector3;
+            Position = vector3;
         } //Constructor
 
-        public Vector3 GetPosition() { return position; }
-        public void SetPosition(Vector3 vector3) { position = vector3; }
-
         //Calculate distance between locations
-        public float DistanceFrom(ILocation location) { return Vector3.Distance(position, ((Location)location).GetPosition()); }
+        public float DistanceFrom(ILocation location) { return Vector3.Distance(Position, ((Location)location).Position); }
 
         public ILocation RandomLocation(float distanceFromPlayer, float distanceFromRobots) { throw new System.NotImplementedException(); }
     }
@@ -119,20 +116,20 @@ namespace DisablerAi_Implemented
         }
 
 
-        public ILocation Location { get { return Location; } set { Location = value; } }                                  /**Current Location of this robot*/
-        public ILocation Target { get { return Target; } set { Target = value; } }                                        /**Current Location that the robot is walking towards*/
-        public ILocation PatrolStart { get { return PatrolStart; } set { PatrolStart = value; } }                         /**Start of starting patrol path*/
-        public ILocation PatrolEnd { get { return PatrolEnd; } set { PatrolStart = value; } }                             /**Position of starting patrol path*/
-        public List<ILocation> PointsOfInterest { get { return PointsOfInterest; } set { PointsOfInterest = value; } }    /**List of different points for the AI to go to.*/
-        public RobotAnimation PlayingAnimation { get { return PlayingAnimation; } set { PlayingAnimation = value; } }    /**Check what animation is currently playing*/
-        public bool DetectionLineOfSight { get { return DetectionLineOfSight; } set { DetectionLineOfSight = value; } }  /**Detect if player is seen or not*/
-        public bool DetectionAudio { get { return DetectionAudio; } set { DetectionAudio = value; } }                    /**Detect if player is heard or not*/
-        public bool Shot { get { return Shot; } set { Shot = value; } }                                                  /**Detect if robot was hurt with a shot or not*/
-        public bool HitWithItem { get { return HitWithItem; } set { HitWithItem = value; } }                             /**Detect if robot was hurt with a thrown item or not*/
+        public ILocation Location { get; set; }                                 /**Current Location of this robot*/
+        public ILocation Target { get; set; }                                          /**Current Location that the robot is walking towards*/
+        public ILocation PatrolStart { get; set; }                           /**Start of starting patrol path*/
+        public ILocation PatrolEnd { get; set; }                              /**Position of starting patrol path*/
+        public List<ILocation> PointsOfInterest { get; set; }      /**List of different points for the AI to go to.*/
+        public RobotAnimation PlayingAnimation { get; set; }    /**Check what animation is currently playing*/
+        public bool DetectionLineOfSight { get; set; }   /**Detect if player is seen or not*/
+        public bool DetectionAudio { get; set; }                /**Detect if player is heard or not*/
+        public bool Shot { get; set; }                                           /**Detect if robot was hurt with a shot or not*/
+        public bool HitWithItem { get; set; }                              /**Detect if robot was hurt with a thrown item or not*/
 
-        public IRobotHead Head { get { return Head; } set { Head = value; } }                                            /**Robot's head for headshots*/
+        public IRobotHead Head { get; set; }                                              /**Robot's head for headshots*/
 
-        public int Health { get { return Health; } set { Health = value; } }                                             /**Robot's health. If 0, switch to disabled state*/
+        public int Health { get; set; }                                        /**Robot's health. If 0, switch to disabled state*/
 
         public bool CanHear(IPlayer player) //Implement Johanne's LOS code here
         {
@@ -161,8 +158,8 @@ namespace DisablerAi_Implemented
      */
     public class RobotHead : IRobotHead
     {
-        public ILocation Location { get { return Location; } set { Location = value; } }
-        public bool Shot { get { return Shot; } set { Shot = value; } }
+        public ILocation Location { get; set; }
+        public bool Shot { get; set; }
 
         public RobotHead(ILocation Location)
         {
