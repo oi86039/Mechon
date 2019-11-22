@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class tutorialScript : MonoBehaviour
 {
-    public GameObject leftJoystick;
-    public GameObject leftTrigger;
     public GameObject rightTrigger;
+    public GameObject backRightTrigger;
+    public GameObject aimForHead;
 
     // Start is called before the first frame update
     void Start()
@@ -17,31 +17,39 @@ public class tutorialScript : MonoBehaviour
     // Update is called once per frame
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "buttonStart")
+        if (other.tag == "pickup")
         {
-            leftStickPause();
+            rightTrigger.SetActive(true);
+            Destroy(other);
         }
 
-        //write if statements to determine which tutorial should pop up and be set active
+        if (other.tag == "shooting")
+        {
+            backRightTrigger.SetActive(true);
+            Destroy(other);
+        }
+
+        if (other.tag == "aiming")
+        {
+            aimForHead.SetActive(true);
+            Destroy(other);
+        }
+       
     }
 
     private void Update()
     {
-        //Vector2 x_joy = OVRInput.Axis2D.PrimaryThumbstick;
-        //if (OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick) > .5) //if left trigger is used
-        //{
-          //  leftStickResume();
-        //}
+        float trigger = OVRInput.Get(OVRInput.Axis1D.SecondaryHandTrigger);
+        if (trigger > 0)
+        {
+            rightTrigger.SetActive(false);
+        }
 
-    }
-
-    public void leftStickPause()
-    {
-        leftJoystick.SetActive(true);
-    }
-
-    public void leftStickResume()
-    {
-        leftJoystick.SetActive(false);
+        float backTrigger = OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger);
+        if (backTrigger > 0)
+        {
+            backRightTrigger.SetActive(false);
+            aimForHead.SetActive(false);
+        }
     }
 }

@@ -7,6 +7,7 @@ TagManager:
   - Ammo
   - teleport
   - buttonStart
+  - pickup
   layers:
   - Default
   - TransparentFX
