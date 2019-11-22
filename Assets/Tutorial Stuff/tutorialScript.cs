@@ -7,6 +7,7 @@ public class tutorialScript : MonoBehaviour
     public GameObject rightTrigger;
     public GameObject backRightTrigger;
     public GameObject aimForHead;
+    public GameObject scopes;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +35,12 @@ public class tutorialScript : MonoBehaviour
             aimForHead.SetActive(true);
             Destroy(other);
         }
+
+        if (other.tag == "scope")
+        {
+            scopes.SetActive(true);
+            Destroy(other);
+        }
        
     }
 
@@ -50,6 +57,12 @@ public class tutorialScript : MonoBehaviour
         {
             backRightTrigger.SetActive(false);
             aimForHead.SetActive(false);
+        }
+
+        bool buttonB = OVRInput.Get(OVRInput.Button.Two);
+        if (buttonB == true)
+        {
+            scopes.SetActive(false);
         }
     }
 }
