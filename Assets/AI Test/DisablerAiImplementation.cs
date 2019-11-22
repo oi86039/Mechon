@@ -11,6 +11,11 @@ namespace DisablerAi_Implemented
      */
     public class Disabler : IDisabler
     {
+        public Disabler(Location Location)
+        {
+            this.Location = Location;
+        }
+
         public ILocation Location { get { return Location; } set { Location = value; } }  /**Current Location of this gun*/
     }
 
@@ -19,6 +24,11 @@ namespace DisablerAi_Implemented
    */
     public class Item : IItem
     {
+        public Item(Location Location)
+        {
+            this.Location = (ILocation)(Location);
+        }
+
         public ILocation Location { get { return Location; } set { Location = value; } }  /**Current Location of this item*/
 
         public void MarkForPlayer()
@@ -34,11 +44,14 @@ namespace DisablerAi_Implemented
     {
         public Vector3 position; //Location in real world space
 
-        public Location(Vector3 vector3) { position = vector3; } //Constructor
+        public Location(Vector3 vector3)
+        {
+            position = vector3;
+        } //Constructor
 
         public Vector3 GetPosition() { return position; }
         public void SetPosition(Vector3 vector3) { position = vector3; }
-       
+
         //Calculate distance between locations
         public float DistanceFrom(ILocation location) { return Vector3.Distance(position, ((Location)location).GetPosition()); }
 
@@ -53,7 +66,8 @@ namespace DisablerAi_Implemented
         public IDisabler Disabler { get { return Disabler; } set { Disabler = value; } }
         public ILocation Location { get { return Location; } set { Location = value; } }  /**Current Location of the Player*/
 
-        public Player(IDisabler Disabler, ILocation Location) {
+        public Player(IDisabler Disabler, Location Location)
+        {
             this.Disabler = Disabler;
             this.Location = Location;
         }
@@ -78,11 +92,30 @@ namespace DisablerAi_Implemented
         /**Player's gameobject*/
 
         //Place constructor here
-        public Robot(ILocation Location, ILocation Target, ILocation PatrolStart, ILocation PatrolEnd, List<ILocation> PointsOfInterest,RobotAnimation PlayingAnimation, IRobotHead Head) {
+        public Robot(Location Location, Location Target, Location PatrolStart, Location PatrolEnd, List<Location> PointsOfInterest, IRobotHead Head, int Health)
+        {
             this.Location = Location;
             this.Target = Target;
             this.PatrolStart = PatrolStart;
-            this.
+            this.PatrolEnd = PatrolEnd;
+
+            //Cast Locations to ILocations in list, then assign
+            foreach (Location PoI in PointsOfInterest)
+            {
+                this.PointsOfInterest.Add((ILocation)(PoI));
+            }
+
+            PlayingAnimation = RobotAnimation.None; //Start as stationary
+            this.Head = Head;
+
+            //Default values
+            DetectionLineOfSight = false;
+            DetectionAudio = false;
+            Shot = false;
+            HitWithItem = false;
+            this.Health = Health;
+
+
         }
 
 
@@ -101,7 +134,7 @@ namespace DisablerAi_Implemented
 
         public int Health { get { return Health; } set { Health = value; } }                                             /**Robot's health. If 0, switch to disabled state*/
 
-        public bool CanHear(IPlayer player)
+        public bool CanHear(IPlayer player) //Implement Johanne's LOS code here
         {
             throw new System.NotImplementedException();
         }
@@ -131,7 +164,8 @@ namespace DisablerAi_Implemented
         public ILocation Location { get { return Location; } set { Location = value; } }
         public bool Shot { get { return Shot; } set { Shot = value; } }
 
-        public RobotHead(ILocation Location) {
+        public RobotHead(ILocation Location)
+        {
             this.Location = Location;
             Shot = false;
         }

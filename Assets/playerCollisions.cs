@@ -1,56 +1,37 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using DisablerAi_Implemented;
+
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using DisablerAi;
-using DisablerAi.Interfaces;
-
-public class UnityPlayer : IPlayer
-{
-
-    GameObject gameObject; /**GameObject this class is attached to*/
-
-    public IDisabler Disabler { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-    public ILocation Location { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-
-    public List<IItem> NearestItems()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public List<IRobot> NearestRobots()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public UnityPlayer(GameObject gameObject)
-    {
-        this.gameObject = gameObject;
-    }
-
-}
 
 public class playerCollisions : MonoBehaviour
 {
-    public UnityPlayer playerScript;
-    CharacterController controller;
-    public int health = 3;
+    [Header("AI")]
+    public Disabler disabler; /**Disabler obj for ai code*/
+
+    private Player player; /**Player obj for ai code*/
+
+    [Header("AI")]
     public Animator anim; //Fade animation
 
+    private CharacterController controller;
+    public int health = 3;
+
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        playerScript = new UnityPlayer(gameObject);
+        player = new Player(disabler, new Location(transform.position));
         controller = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-
+        //Update ai
+        player.Location = new Location(transform.position);
     }
 
-    void OnCollisionEnter(Collision other)
+    private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.layer == 10)
         {
@@ -69,7 +50,8 @@ public class playerCollisions : MonoBehaviour
         }
     }
 
-    IEnumerator Death() {
+    private IEnumerator Death()
+    {
         yield return new WaitForSeconds(5);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
