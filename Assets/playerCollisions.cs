@@ -9,7 +9,7 @@ public class playerCollisions : MonoBehaviour
     [Header("AI")]
     public Disabler disabler; /**Disabler obj for ai code*/
 
-    private Player player; /**Player obj for ai code*/
+    public Player player; /**Player obj for ai code*/
 
     [Header("AI")]
     public Animator anim; //Fade animation
@@ -17,15 +17,21 @@ public class playerCollisions : MonoBehaviour
     private CharacterController controller;
     public int health = 3;
 
+    private void Awake() {
+        
+        //Create new player
+        player = new Player(disabler, new Location(transform.position));
+
+    }
+
     // Start is called before the first frame update
     private void Start()
     {
-        player = new Player(disabler, new Location(transform.position));
         controller = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
-    private void Update()
+    private void FixedUpdate()
     {
         //Update ai
         player.Location = new Location(transform.position);

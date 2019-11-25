@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
     [Header("AI")]
     public Robot robot;                              /**Robot properties (health, patrol points, etc)*/
 
-    public EnemyJoint head;                          /**Get the robot's head component for the AI*/
+    public EnemyHead head;                          /**Get the robot's head component for the AI*/
     public GameObject playerObj;                     /**Reference to the player*/
 
     private RobotAi ai;                                      /**Main AI state machine*/
@@ -57,6 +57,9 @@ public class Enemy : MonoBehaviour
             , head.head
             , health
             );
+
+        //Create Player
+        player = playerObj.GetComponent<playerCollisions>().player;
 
         //Create AI
         ai = new RobotAi(robot, player);
@@ -170,7 +173,7 @@ public class Enemy : MonoBehaviour
             case RobotAiState.Hurt:
                 break;
 
-            case RobotAiState.Disabled: 
+            case RobotAiState.Disabled:
                 //Ragdoll
                 foreach (Rigidbody rb in jointRigidBodies)
                 {

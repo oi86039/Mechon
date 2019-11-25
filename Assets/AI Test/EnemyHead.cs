@@ -1,16 +1,20 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using DisablerAi_Implemented;
 
-public class EnemyJoint : MonoBehaviour
+public class EnemyHead : EnemyJoint
 {
-    protected Collider coll;
+    public RobotHead head;
 
     // Start is called before the first frame update
-    private void Start()
+    void Awake()
     {
-        coll = GetComponent<Collider>();
+        head = new RobotHead(new Location(transform.position));
+        Debug.Log("Head set???");
     }
 
-    public virtual void OnTriggerEnter(Collider other)
+    public override void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
@@ -27,7 +31,7 @@ public class EnemyJoint : MonoBehaviour
         }
     }
 
-    public virtual void OnCollisionEnter(Collision other)
+    public override void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
@@ -42,4 +46,5 @@ public class EnemyJoint : MonoBehaviour
             SendMessageUpwards("Shot"); //Player was bodyshot
         }
     }
+
 }
