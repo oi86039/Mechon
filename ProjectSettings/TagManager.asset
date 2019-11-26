@@ -8,6 +8,7 @@ TagManager:
   - teleport
   - buttonStart
   - pickup
+  - aiming
   layers:
   - Default
   - TransparentFX
