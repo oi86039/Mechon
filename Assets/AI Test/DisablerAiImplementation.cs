@@ -84,7 +84,6 @@ namespace DisablerAi_Implemented
     public class Robot
     {
         GameObject gameObject; /**Robot's gameobject*/
-        /**Player's gameobject*/
 
         //Place constructor here
         public Robot(Location location, Location target, Location patrolStart, Location patrolEnd, List<Location> pointsOfInterest, RobotHead head, int health)
@@ -108,11 +107,8 @@ namespace DisablerAi_Implemented
             DetectionAudio = false;
             Shot = false;
             HitWithItem = false;
-            this.Health = Health;
-
-
+            this.Health = health;
         }
-
 
         public Location Location { get; set; }                                 /**Current Location of this robot*/
         public Location Target { get; set; }                                          /**Current Location that the robot is walking towards*/

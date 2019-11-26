@@ -7,11 +7,11 @@ using UnityEngine.SceneManagement;
 public class playerCollisions : MonoBehaviour
 {
     [Header("AI")]
-    public Disabler disabler; /**Disabler obj for ai code*/
+    public Gun disabler; /**Disabler obj for ai code*/
 
     public Player player; /**Player obj for ai code*/
 
-    [Header("AI")]
+    [Header("Properties")]
     public Animator anim; //Fade animation
 
     private CharacterController controller;
@@ -20,7 +20,7 @@ public class playerCollisions : MonoBehaviour
     private void Awake() {
         
         //Create new player
-        player = new Player(disabler, new Location(transform.position));
+        player = new Player(disabler.disabler, new Location(transform.position));
 
     }
 

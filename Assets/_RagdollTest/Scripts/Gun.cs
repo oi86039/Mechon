@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class Gun : MonoBehaviour
 {
 
-    Disabler disabler;                      /**Disabler component for AI code*/
+    public Disabler disabler;                      /**Disabler component for AI code*/
 
     public GameObject bullet;
     public ParticleSystem shootFX;
@@ -19,12 +19,15 @@ public class Gun : MonoBehaviour
     public Animator recoil;
     public bool canFire;
 
-    // Start is called before the first frame update
-    private void Start()
+    private void Awake()
     {
         //Init AI
         disabler = new Disabler(new Location(transform.position));
+    }
 
+    // Start is called before the first frame update
+    private void Start()
+    {
         scopeAnim.SetBool("On", false); //Set On if off, and off if on
         recoil = GetComponent<Animator>();
         ammoDisplay = GameObject.Find("AmmoDisplay").GetComponent<TextMeshProUGUI>();

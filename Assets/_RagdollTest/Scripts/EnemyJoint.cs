@@ -24,6 +24,7 @@ public class EnemyJoint : MonoBehaviour
         else if (other.gameObject.layer == 10 || other.gameObject.layer == 11)
         { //Shot with bullet or item
             SendMessageUpwards("Shot"); //Player was bodyshot
+            Debug.Log("Shot @ " + gameObject.name);
         }
     }
 
@@ -40,6 +41,7 @@ public class EnemyJoint : MonoBehaviour
         else if (other.gameObject.layer == 10 || other.gameObject.layer == 11)
         { //Shot with bullet or item
             SendMessageUpwards("Shot"); //Player was bodyshot
+            Debug.Log("Shot @ " + gameObject.name);
         }
     }
 }

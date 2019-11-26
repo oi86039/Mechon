@@ -2,6 +2,7 @@
 using DisablerAi_Implemented;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class Enemy : MonoBehaviour
     private Player player;                                   /**Reference to player for ai code*/
 
     [Header("Paths")]
+    NavMeshAgent agent;                      /**Navmesh agent allowing for built in A* pathfinding movement*/
     public Transform patrolStart;                    /**Point A for AI path*/
 
     public Transform patrolEnd;                      /**Point B for AI path*/
@@ -25,7 +27,7 @@ public class Enemy : MonoBehaviour
     private List<Location> pois;                             /**Points of interest list for ai code*/
 
     [Header("Robot Properties")]
-    public int health = 5; //replace with ai.health
+    public int health; //replace with ai.health
 
     public SkinnedMeshRenderer jointMeshRenderer;   /**mesh renderer to turn body blue upon being hit*/
 
@@ -34,6 +36,11 @@ public class Enemy : MonoBehaviour
 
     // public Animator anim;
     // public bool dead; //Is the enemy ragdoll/dead? REPLACE with ai.dead
+
+    private void Awake()
+    {
+        agent = GetComponent<NavMeshAgent>();
+    }
 
     // Start is called before the first frame update
     private void Start()
@@ -117,9 +124,11 @@ public class Enemy : MonoBehaviour
                 break;
 
             case RobotAiState.PatrolMarchToEnd:
+                agent.SetDestination(robot.Target.Position);
                 break;
 
             case RobotAiState.PatrolMarchToStart:
+                agent.SetDestination(robot.Target.Position);
                 break;
 
             case RobotAiState.PatrolLookAround:

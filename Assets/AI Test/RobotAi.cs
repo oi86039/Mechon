@@ -399,7 +399,8 @@ namespace DisablerAi
 
 
                     // Can only hold up Player if it's disabler is <7m from the Head of this Robot
-                    return Player.Disabler.Location.DistanceFrom(Robot.Head.Location) <= 7;
+                    //Debug.Log("Disabler to Head Distance: " + Player.Disabler.Location.DistanceFrom(Robot.Head.Location));
+                    return Player.Disabler.Location.DistanceFrom(Robot.Head.Location) <= 1.1;
                 case RobotAiState.HeldUpRefuse:
                     if (State == RobotAiState.HeldUp || State == RobotAiState.HeldUpGetDown)
                     {

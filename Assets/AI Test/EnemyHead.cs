@@ -14,6 +14,12 @@ public class EnemyHead : EnemyJoint
         Debug.Log("Head set???");
     }
 
+    private void FixedUpdate()
+    {
+        //Update Location for AI
+        head.Location = new Location(transform.position);
+    }
+
     public override void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -27,7 +33,8 @@ public class EnemyHead : EnemyJoint
 
         else if (other.gameObject.layer == 10 || other.gameObject.layer == 11)
         { //Shot with bullet or item
-            SendMessageUpwards("Shot"); //Player was bodyshot
+            head.Shot = true; //Player was headshot
+            Debug.Log("Head Shot @ " + gameObject.name);
         }
     }
 
@@ -43,7 +50,8 @@ public class EnemyHead : EnemyJoint
         }
         else if (other.gameObject.layer == 10 || other.gameObject.layer == 11)
         { //Shot with bullet or item
-            SendMessageUpwards("Shot"); //Player was bodyshot
+            head.Shot = true; //Player was headshot
+            Debug.Log("Head Shot @ " + gameObject.name);
         }
     }
 
