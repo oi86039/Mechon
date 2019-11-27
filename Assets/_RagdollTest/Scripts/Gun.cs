@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class Gun : MonoBehaviour
 {
 
-    public Disabler disabler;                      /**Disabler component for AI code*/
+  //  public Disabler disabler;                      /**Disabler component for AI code*/
 
     public GameObject bullet;
     public ParticleSystem shootFX;
@@ -22,7 +22,7 @@ public class Gun : MonoBehaviour
     private void Awake()
     {
         //Init AI
-        disabler = new Disabler(new Location(transform.position));
+      //  disabler = new Disabler(new Location(transform.position));
     }
 
     // Start is called before the first frame update
@@ -37,7 +37,7 @@ public class Gun : MonoBehaviour
     private void Update()
     {
         //Update ai
-        disabler.Location = new Location(transform.position);
+       // disabler.Location = new Location(transform.position);
 
         //Restart on start button
         //Put this on the player controller/gun instead

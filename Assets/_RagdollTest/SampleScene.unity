@@ -590,14 +590,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 582a6bd4ad06b274090c7af760f72e57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LeftGrabber: {fileID: 0}
-  LeftAnchor: {fileID: 0}
-  RightGrabber: {fileID: 0}
-  RightAnchor: {fileID: 0}
+  LeftGrabber: {fileID: 1569295225}
+  LeftAnchor: {fileID: 808512714}
+  RightGrabber: {fileID: 1939544348}
+  RightAnchor: {fileID: 1333671666}
   grabbable: {fileID: 235656310}
   canSnap: 0
   hologram: {fileID: 1777814605}
-  snapDestination: {fileID: 0}
+  snapDestination: {fileID: 1947691117}
   isSnapped: 0
   isGrabbed: 0
   grabRange: 0.15
@@ -2365,6 +2365,11 @@ PrefabInstance:
       propertyPath: disabler
       value: 
       objectReference: {fileID: 1602416574}
+    - target: {fileID: 2612543751564559425, guid: 6a7f258cc476e694dac0f5dc26c28de6,
+        type: 3}
+      propertyPath: disablerScript
+      value: 
+      objectReference: {fileID: 1602416574}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a7f258cc476e694dac0f5dc26c28de6, type: 3}
 --- !u!1 &742856967 stripped
@@ -3263,6 +3268,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1189441276}
   m_CullTransparentMesh: 0
+--- !u!4 &1274369552 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7757243490036854809, guid: 6a7f258cc476e694dac0f5dc26c28de6,
+    type: 3}
+  m_PrefabInstance: {fileID: 742856966}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1275636575
 GameObject:
   m_ObjectHideFlags: 0
@@ -4430,6 +4441,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1637590080 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6296159431650196044, guid: 6a7f258cc476e694dac0f5dc26c28de6,
+    type: 3}
+  m_PrefabInstance: {fileID: 742856966}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1772729981
 GameObject:
   m_ObjectHideFlags: 0
@@ -5457,12 +5474,12 @@ PrefabInstance:
         type: 3}
       propertyPath: hologram
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1637590080}
     - target: {fileID: 5511157132672094803, guid: 15dfb68d4e0c3bb499ca189906b4c9ce,
         type: 3}
       propertyPath: snapDestination
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1274369552}
     - target: {fileID: 5511157132672094803, guid: 15dfb68d4e0c3bb499ca189906b4c9ce,
         type: 3}
       propertyPath: LeftGrabber

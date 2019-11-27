@@ -7,7 +7,8 @@ using UnityEngine.SceneManagement;
 public class playerCollisions : MonoBehaviour
 {
     [Header("AI")]
-    public Gun disabler; /**Disabler obj for ai code*/
+    public Gun disablerScript; /**Disabler obj for ai code*/
+    Disabler disabler; /**Disabler obj for ai code*/
 
     public Player player; /**Player obj for ai code*/
 
@@ -17,10 +18,11 @@ public class playerCollisions : MonoBehaviour
     private CharacterController controller;
     public int health = 3;
 
-    private void Awake() {
-        
+    private void Awake()
+    {
+        disabler = new Disabler(new Location(disablerScript.transform.position));
         //Create new player
-        player = new Player(disabler.disabler, new Location(transform.position));
+        player = new Player(disabler, new Location(transform.position));
 
     }
 
@@ -34,6 +36,7 @@ public class playerCollisions : MonoBehaviour
     private void FixedUpdate()
     {
         //Update ai
+        player.Disabler.Location = new Location(disablerScript.transform.position);
         player.Location = new Location(transform.position);
     }
 

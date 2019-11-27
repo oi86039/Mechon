@@ -80,6 +80,7 @@ public class Enemy : MonoBehaviour
 
         //  anim = GetComponent<Animator>();
         // dead = false;
+        
     }
 
     // Update is called once per frame
