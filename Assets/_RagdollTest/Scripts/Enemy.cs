@@ -57,7 +57,7 @@ public class Enemy : MonoBehaviour
         //Create Robot
         robot = new Robot(
             new Location(transform.position) //Location of the robot
-            , new Location(transform.position) //First target is unset (main position of the robot)
+            , new Location(patrolEnd.transform.position) //First target is PatrolEnd Point
             , new Location(patrolStart.transform.position)
             , new Location(patrolEnd.transform.position)
             , pois

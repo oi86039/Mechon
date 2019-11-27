@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DisablerAi_Implemented;
+using UnityEngine;
 
 namespace DisablerAi
 {
@@ -346,10 +347,10 @@ namespace DisablerAi
 
                 case RobotAiState.PatrolLookAround:
                     if (State == RobotAiState.PatrolMarchToEnd)
-                        return Robot.Location.DistanceFrom(Robot.PatrolEnd) <= 0;
+                        return Robot.Location.DistanceFrom(Robot.PatrolEnd) <= 1.4f;
 
                     if (State == RobotAiState.PatrolMarchToStart)
-                        return Robot.Location.DistanceFrom(Robot.PatrolStart) <= 0;
+                        return Robot.Location.DistanceFrom(Robot.PatrolStart) <= 1.4f;
 
                     return false;
 

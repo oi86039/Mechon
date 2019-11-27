@@ -11,7 +11,6 @@ public class EnemyHead : EnemyJoint
     void Awake()
     {
         head = new RobotHead(new Location(transform.position));
-        Debug.Log("Head set???");
     }
 
     private void FixedUpdate()
