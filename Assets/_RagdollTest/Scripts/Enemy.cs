@@ -169,6 +169,7 @@ public class Enemy : MonoBehaviour
                 break;
 
             case RobotAiState.HeldUp:
+                agent.ResetPath();
                 break;
 
             case RobotAiState.HeldUpDemandMarkAmmo:
