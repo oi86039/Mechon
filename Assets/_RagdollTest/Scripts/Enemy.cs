@@ -34,7 +34,7 @@ public class Enemy : MonoBehaviour
     private Rigidbody[] jointRigidBodies;                   /**List of joints for the robot's ragdoll (Used to register hits)*/
     public Color defaultColor;
 
-    // public Animator anim;
+    public Animator anim;
     // public bool dead; //Is the enemy ragdoll/dead? REPLACE with ai.dead
 
     private void Awake()
@@ -86,6 +86,9 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
+        //Update animation (patrol)
+        anim.SetFloat("Speed", agent.velocity.magnitude/agent.speed);
+
         //Go to default color
         jointMeshRenderer.material.color = Color.Lerp(jointMeshRenderer.material.color, defaultColor, 0.1f);
 
