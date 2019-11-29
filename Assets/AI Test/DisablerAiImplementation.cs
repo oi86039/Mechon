@@ -83,15 +83,16 @@ namespace DisablerAi_Implemented
      */
     public class Robot
     {
-        GameObject gameObject; /**Robot's gameobject*/
+        FieldOfView headFOV; /**Allows robot to detect if seen or not*/
 
         //Place constructor here
-        public Robot(Location location, Location target, Location patrolStart, Location patrolEnd, List<Location> pointsOfInterest, RobotHead head, int health)
+        public Robot(Location location, Location target, Location patrolStart, Location patrolEnd, List<Location> pointsOfInterest, RobotHead head, int health, FieldOfView fov)
         {
             this.Location = location;
             this.Target = target;
             this.PatrolStart = patrolStart;
             this.PatrolEnd = patrolEnd;
+            this.headFOV = fov;
 
             //Cast Locations to ILocations in list, then assign
             foreach (Location PoI in pointsOfInterest)
@@ -108,6 +109,7 @@ namespace DisablerAi_Implemented
             Shot = false;
             HitWithItem = false;
             this.Health = health;
+
         }
 
         public Location Location { get; set; }                                 /**Current Location of this robot*/
@@ -125,16 +127,16 @@ namespace DisablerAi_Implemented
 
         public int Health { get; set; }                                        /**Robot's health. If 0, switch to disabled state*/
 
-        public bool CanHear(Player player) //Implement Johanne's LOS code here
+        public bool CanHear() //Implement Johanne's LOS code here
         {
             //To test
             return false;
         }
 
-        public bool CanSee(Player player) //Implement Johanne's LOS code here
+        public bool CanSee() //Implement Johanne's LOS code here
         {
-            //To test
-            return true;
+           // Debug.Log("Can See triggered: " + headFOV.canSee);
+            return headFOV.canSee;
         }
 
         public void MarkForPlayer()

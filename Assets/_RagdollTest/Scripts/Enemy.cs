@@ -1,5 +1,6 @@
 ﻿using DisablerAi;
 using DisablerAi_Implemented;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -10,8 +11,13 @@ public class Enemy : MonoBehaviour
 
     [Header("AI")]
     public Robot robot;                              /**Robot properties (health, patrol points, etc)*/
+    public float walkSpeed;
+    public float runSpeed;
+    bool firing; /**Is the robot firing his gun?*/
 
-    public EnemyHead head;                          /**Get the robot's head component for the AI*/
+    FieldOfView fov;                             /**Field of view script allowing for visual detection*/
+
+    EnemyHead head;                          /**Get the robot's head component for the AI*/
     public GameObject playerObj;                     /**Reference to the player*/
 
     private RobotAi ai;                                      /**Main AI state machine*/
@@ -27,19 +33,32 @@ public class Enemy : MonoBehaviour
     private List<Location> pois;                             /**Points of interest list for ai code*/
 
     [Header("Robot Properties")]
-    public int health; //replace with ai.health
 
-    public SkinnedMeshRenderer jointMeshRenderer;   /**mesh renderer to turn body blue upon being hit*/
+    public Transform firePoint; //Point in which the projectile of the robot will fire from
+    public GameObject bullet;
+
+
+    public int health;                            //replace with ai.health
+
+    SkinnedMeshRenderer jointMeshRenderer;       /**mesh renderer to turn body blue upon being hit*/
 
     private Rigidbody[] jointRigidBodies;                   /**List of joints for the robot's ragdoll (Used to register hits)*/
-    public Color defaultColor;
+    Color defaultColor;
 
-    public Animator anim;
-    // public bool dead; //Is the enemy ragdoll/dead? REPLACE with ai.dead
+    Animator anim;
 
     private void Awake()
     {
+        //Init common properties
         agent = GetComponent<NavMeshAgent>();
+        agent.speed = walkSpeed;
+        anim = GetComponent<Animator>();
+
+        head = GetComponentInChildren<EnemyHead>();
+        fov = GetComponentInChildren<FieldOfView>();
+        jointRigidBodies = GetComponentsInChildren<Rigidbody>();
+        jointMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
+        defaultColor = jointMeshRenderer.material.color;
     }
 
     // Start is called before the first frame update
@@ -63,6 +82,7 @@ public class Enemy : MonoBehaviour
             , pois
             , head.head
             , health
+            , fov
             );
 
         //Create Player
@@ -71,23 +91,14 @@ public class Enemy : MonoBehaviour
         //Create AI
         ai = new RobotAi(robot, player);
 
-        #endregion Init AI
-
-        //Init common properties
-        jointRigidBodies = GetComponentsInChildren<Rigidbody>();
-        jointMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
-        defaultColor = jointMeshRenderer.material.color;
-
-        //  anim = GetComponent<Animator>();
-        // dead = false;
-        
+        #endregion Init AI        
     }
 
     // Update is called once per frame
     private void FixedUpdate()
     {
         //Update animation (patrol)
-        anim.SetFloat("Speed", agent.velocity.magnitude/agent.speed);
+        anim.SetFloat("Speed", agent.velocity.magnitude / agent.speed);
 
         //Go to default color
         jointMeshRenderer.material.color = Color.Lerp(jointMeshRenderer.material.color, defaultColor, 0.1f);
@@ -110,12 +121,22 @@ public class Enemy : MonoBehaviour
                 break;
 
             case RobotAiState.Alert:
+                agent.ResetPath();
+                agent.speed = runSpeed;
+                transform.LookAt(playerObj.transform.position);
+                //Play Animation
+                anim.SetTrigger("Alert!");
+                anim.SetFloat("Alert Transition", anim.GetFloat("Alert Transition") + 0.012f);
                 break;
 
             case RobotAiState.AlertCallHeadQuarters:
+                //for each robot in scene, state = alert
+                StartCoroutine(AlertCallHeadQuarters());
                 break;
 
             case RobotAiState.AlertAttack:
+                if (!firing)
+                    StartCoroutine(BurstFire());
                 break;
 
             case RobotAiState.AlertReposition:
@@ -136,6 +157,7 @@ public class Enemy : MonoBehaviour
                 break;
 
             case RobotAiState.PatrolLookAround:
+                robot.PlayingAnimation = RobotAnimation.LookAround;
                 break;
 
             case RobotAiState.Suspicion:
@@ -170,6 +192,7 @@ public class Enemy : MonoBehaviour
 
             case RobotAiState.HeldUp:
                 agent.ResetPath();
+                robot.PlayingAnimation = RobotAnimation.None;
                 break;
 
             case RobotAiState.HeldUpDemandMarkAmmo:
@@ -185,10 +208,12 @@ public class Enemy : MonoBehaviour
                 break;
 
             case RobotAiState.Hurt:
+                robot.PlayingAnimation = RobotAnimation.HurtStagger;
                 break;
 
             case RobotAiState.Disabled:
                 //Ragdoll
+                robot.PlayingAnimation = RobotAnimation.RagDoll;
                 foreach (Rigidbody rb in jointRigidBodies)
                 {
                     rb.isKinematic = false; //Enable Ragdoll
@@ -206,42 +231,26 @@ public class Enemy : MonoBehaviour
             jointMeshRenderer.material.color = Color.cyan;
     }
 
-    #region Old Shot
+    IEnumerator AlertCallHeadQuarters()
+    {
+        robot.PlayingAnimation = RobotAnimation.AlertCallHeadQuarters;
+        yield return new WaitForSeconds(0.02f);
+        robot.PlayingAnimation = RobotAnimation.None;
+    }
 
-    //Old functions
-    //void Die() //Call when hitting the body
-    //{
-    //    health--;
-    //    if (!dead)
-    //        jointMeshRenderer.material.color = Color.cyan;
+    IEnumerator BurstFire()
+    {
+        firing = true;
+        for (int i = 0; i < 3; i++)
+        {
+            Debug.Log("FIRE");
+            Instantiate(bullet, firePoint.transform.position, firePoint.transform.rotation);
+            i++;
+            yield return new WaitForSeconds(0.08f);
+        }
+        Debug.Log("Burst cooldown...");
+        yield return new WaitForSeconds(0.7f);
+        firing = false;
+    }
 
-    //    if (health <= 0)
-    //    {
-    //        health = 0;
-    //        foreach (Rigidbody rb in jointRigidBodies)
-    //        {
-    //            rb.isKinematic = false; //Enable Ragdoll
-    //                                    // anim.enabled = false;
-
-    //        }
-    //        dead = true;
-    //    }
-    //}
-
-    //void DieNow() //Call when hitting the head
-    //{
-    //    health = 0;
-    //    if (!dead)
-    //        jointMeshRenderer.material.color = Color.cyan;
-    //    foreach (Rigidbody rb in jointRigidBodies)
-    //    {
-    //        rb.isKinematic = false; //Enable Ragdoll
-    //                                // anim.enabled = false;
-
-    //    }
-    //    dead = true;
-
-    //}
-
-    #endregion Old Shot
 }

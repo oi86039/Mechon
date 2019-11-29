@@ -47,7 +47,7 @@ namespace DisablerAi
 
                     if (State == RobotAiState.AlertFollowUp)
                     {
-                        if (!Robot.CanSee(Player) && !Robot.CanHear(Player))
+                        if (!Robot.CanSee() && !Robot.CanHear())
                         {
                             if ((DateTime.Now - TimeMarker).TotalMinutes >= 1)
                                 return true;
@@ -133,10 +133,10 @@ namespace DisablerAi
                         }
                     }
 
-                    if (State == RobotAiState.Patrol)
+                    if (State == RobotAiState.Patrol || State == RobotAiState.PatrolLookAround || State == RobotAiState.PatrolMarchToStart || State == RobotAiState.PatrolMarchToEnd)
                     {
                         float distance = Robot.Location.DistanceFrom(Player.Location);
-                        if (Robot.CanSee(Player) && distance < 15.0f)
+                        if (Robot.CanSee() && distance < 15.0f)
                             return true;
                     }
 
@@ -145,7 +145,7 @@ namespace DisablerAi
                 case RobotAiState.AlertCallHeadQuarters:
                     if (State == RobotAiState.Alert)
                     {
-                        if ((DateTime.Now - TimeMarker).TotalSeconds >= 2)
+                        if ((DateTime.Now - TimeMarker).TotalSeconds >= 1.8f)
                         {
                             return true;
                         }
@@ -189,7 +189,7 @@ namespace DisablerAi
                     if (State == RobotAiState.AlertAttack || State == RobotAiState.AlertReposition)
                     {
                         // Cannot see the player or the player is not within 60m
-                        if (!Robot.CanSee(Player))
+                        if (!Robot.CanSee())
                             return true;
 
                         if (Robot.Location.DistanceFrom(Player.Location) > 60)
@@ -202,10 +202,10 @@ namespace DisablerAi
                     if (this.State == RobotAiState.Patrol)
                     {
                         float distance = Robot.Location.DistanceFrom(Player.Location);
-                        if (Robot.CanSee(Player) && distance > 14 && distance < 50)
+                        if (Robot.CanSee() && distance > 14 && distance < 50)
                             return true;
 
-                        if (Robot.CanHear(Player) && distance < 40)
+                        if (Robot.CanHear() && distance < 40)
                             return true;
                     }
 
@@ -249,7 +249,7 @@ namespace DisablerAi
                 case RobotAiState.SuspicionShrugOff:
                     if (State == RobotAiState.SuspicionLookAround)
                     {
-                        if (Robot.CanSee(Player))
+                        if (Robot.CanSee())
                             return false;
 
                         if (Robot.PlayingAnimation == RobotAnimation.LookAround)
@@ -270,7 +270,7 @@ namespace DisablerAi
                     if (State == RobotAiState.Suspicion)
                     {
                         // Call HQ if we can see a player within 50m
-                        if (Robot.CanSee(Player) && Robot.Location.DistanceFrom(Player.Location) <= 50)
+                        if (Robot.CanSee() && Robot.Location.DistanceFrom(Player.Location) <= 50)
                             return true;
 
                         // Call HQ if we've heard a player 4 or 5 times within the last few minutes
@@ -650,8 +650,8 @@ namespace DisablerAi
             var location = new PlayerLocation(
                 DateTime.Now,
                 Player.Location,
-                Robot.CanSee(Player),
-                Robot.CanHear(Player)
+                Robot.CanSee(),
+                Robot.CanHear()
             );
 
 
@@ -709,7 +709,7 @@ namespace DisablerAi
                 new Tuple<RobotAiState, Action>(RobotAiState.SuspicionShrugOff, ThinkSuspicionShrugOff),
             };
 
-            if (Robot.CanSee(Player) || Robot.CanHear(Player))
+            if (Robot.CanSee() || Robot.CanHear())
                 PlayerLocationUpdate();
 
             foreach (var handler in handlers)

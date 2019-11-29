@@ -5,6 +5,7 @@ using UnityEngine;
 public class FieldOfView : MonoBehaviour
 {
 
+    public bool canSee; /**True if seeing at least one target. False otherwise.*/
     public float viewRadius;
     [Range(0, 360)]
     public float viewAngle;
@@ -12,7 +13,7 @@ public class FieldOfView : MonoBehaviour
     public LayerMask targetMask;
     public LayerMask obstacleMask;
 
-   [HideInInspector]
+    [HideInInspector]
     public List<Transform> visibleTargets = new List<Transform>();
 
     void Start()
@@ -32,6 +33,7 @@ public class FieldOfView : MonoBehaviour
     void FindVisibleTargets()
     {
         visibleTargets.Clear();
+        canSee = false;
         Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
 
         for (int i = 0; i < targetsInViewRadius.Length; i++)
@@ -45,7 +47,8 @@ public class FieldOfView : MonoBehaviour
                 if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
                 {
                     visibleTargets.Add(target);
-                    Debug.Log("sees a target");
+                    canSee = true;
+                   // Debug.Log("sees a target");
                 }
             }
         }
