@@ -295,11 +295,11 @@ namespace DisablerAi
 
                     if (State == RobotAiState.PatrolLookAround)
                     {
-                        if (Robot.PlayingAnimation == RobotAnimation.LookAround)
-                        {
-                            // Still playing animation
-                            return false;
-                        }
+                        //if (Robot.PlayingAnimation == RobotAnimation.LookAround)
+                        //{
+                        //    // Still playing animation
+                        //    return false;
+                        //}
 
                         if ((DateTime.Now - TimeMarker).TotalSeconds <= 5)
                         {

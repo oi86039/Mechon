@@ -106,7 +106,7 @@ public class Enemy : MonoBehaviour
         //Update ai positions here
         ai.Robot.Location = new Location(transform.position);
 
-        //Update ai state
+        //Update ai state 
         ai.Think();
 
         Debug.Log(ai.State);
@@ -122,27 +122,66 @@ public class Enemy : MonoBehaviour
 
             case RobotAiState.Alert:
                 agent.ResetPath();
+                //agent.isStopped = true;
                 agent.speed = runSpeed;
-                transform.LookAt(playerObj.transform.position);
+
+                //Rotate towards player
+                agent.updateRotation = false;
+                var targetRotation = Quaternion.LookRotation(playerObj.transform.position - transform.position);
+                targetRotation *= Quaternion.Euler(0, 35, 0);
+
+                // Smoothly rotate towards the target point.
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 4 * Time.deltaTime);
+
+                //transform.LookAt(playerObj.transform.position);
+
+
                 //Play Animation
                 anim.SetTrigger("Alert!");
                 anim.SetFloat("Alert Transition", anim.GetFloat("Alert Transition") + 0.012f);
                 break;
 
             case RobotAiState.AlertCallHeadQuarters:
+                //Rotate towards player
+                var targetRotation2 = Quaternion.LookRotation(playerObj.transform.position - transform.position);
+                targetRotation2 *= Quaternion.Euler(0, 35, 0);
+
+                // Smoothly rotate towards the target point.
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation2, 4 * Time.deltaTime);
+
                 //for each robot in scene, state = alert
+                //agent.isStopped = true;
                 StartCoroutine(AlertCallHeadQuarters());
                 break;
 
             case RobotAiState.AlertAttack:
+                //Rotate towards player
+                var targetRotation3 = Quaternion.LookRotation(playerObj.transform.position - transform.position);
+                targetRotation3 *= Quaternion.Euler(0, 35, 0);
+
+                // Smoothly rotate towards the target point.
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation3, 4 * Time.deltaTime);
+                //transform.LookAt(playerObj.transform.position);
+                //transform.rotation *= Quaternion.Euler(0, 35, 0);
                 if (!firing)
                     StartCoroutine(BurstFire());
                 break;
 
             case RobotAiState.AlertReposition:
+                var targetRotation4 = Quaternion.LookRotation(playerObj.transform.position - transform.position);
+                targetRotation4 *= Quaternion.Euler(0, 35, 0);
+
+                // Smoothly rotate towards the target point.
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation4, 4 * Time.deltaTime);
+                agent.SetDestination(robot.Target.Position);
                 break;
 
             case RobotAiState.AlertFollowUp:
+                var targetRotation5 = Quaternion.LookRotation(playerObj.transform.position - transform.position);
+                targetRotation5 *= Quaternion.Euler(0, 35, 0);
+
+                // Smoothly rotate towards the target point.
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation5, 4 * Time.deltaTime);
                 break;
 
             case RobotAiState.Patrol:

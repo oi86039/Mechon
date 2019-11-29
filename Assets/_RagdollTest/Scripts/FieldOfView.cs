@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class FieldOfView : MonoBehaviour
 {
+    //Handle rotation of fov towards target
+    Quaternion original_Rotation;
 
     public bool canSee; /**True if seeing at least one target. False otherwise.*/
     public float viewRadius;
@@ -13,12 +15,24 @@ public class FieldOfView : MonoBehaviour
     public LayerMask targetMask;
     public LayerMask obstacleMask;
 
-    [HideInInspector]
+   // [HideInInspector]
     public List<Transform> visibleTargets = new List<Transform>();
 
     void Start()
     {
+        original_Rotation = transform.localRotation;
         StartCoroutine("FindTargetsWithDelay", .2f);
+    }
+
+    private void Update()
+    {
+        if (visibleTargets.Count > 0)
+        {
+            transform.LookAt(visibleTargets[visibleTargets.Count - 1]);
+        }
+        else
+            transform.localRotation = original_Rotation;
+
     }
 
     IEnumerator FindTargetsWithDelay(float delay)

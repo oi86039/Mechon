@@ -50,7 +50,13 @@ namespace DisablerAi_Implemented
         //Calculate distance between locations
         public float DistanceFrom(Location location) { return Vector3.Distance(Position, location.Position); }
 
-        public Location RandomLocation(float distanceFromPlayer, float distanceFromRobots) { throw new System.NotImplementedException(); }
+        public Location RandomLocation(float distanceFromPlayer, float distanceFromRobots)
+        {
+            Vector3 location = Random.insideUnitSphere * 5; //Random Vector3
+            location -= new Vector3(0, location.y, 0); //Keep location grounded
+            location += Position; //-0.07
+            return new Location(location);
+        }
     }
 
     /**
@@ -135,7 +141,7 @@ namespace DisablerAi_Implemented
 
         public bool CanSee() //Implement Johanne's LOS code here
         {
-           // Debug.Log("Can See triggered: " + headFOV.canSee);
+            // Debug.Log("Can See triggered: " + headFOV.canSee);
             return headFOV.canSee;
         }
 
@@ -146,8 +152,8 @@ namespace DisablerAi_Implemented
 
         public bool ReachedTarget(float distanceForgiveness = 1.3f)
         {
-           // Debug.Log("Distance to Target: " + Location.DistanceFrom(Target));
-          //  Debug.Log("Target Reached: " + (Location.DistanceFrom(Target) < distanceForgiveness));
+            // Debug.Log("Distance to Target: " + Location.DistanceFrom(Target));
+            //  Debug.Log("Target Reached: " + (Location.DistanceFrom(Target) < distanceForgiveness));
             return Location.DistanceFrom(Target) < distanceForgiveness;
         }
         /**GameObject this class is attached to*/
