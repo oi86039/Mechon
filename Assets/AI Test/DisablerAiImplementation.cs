@@ -146,7 +146,7 @@ namespace DisablerAi_Implemented
             throw new System.NotImplementedException();
         }
 
-        public bool ReachedTarget(float distanceForgiveness = 1.3f)
+        public bool ReachedTarget(float distanceForgiveness = 2f)
         {
             // Debug.Log("Distance to Target: " + Location.DistanceFrom(Target));
             //  Debug.Log("Target Reached: " + (Location.DistanceFrom(Target) < distanceForgiveness));

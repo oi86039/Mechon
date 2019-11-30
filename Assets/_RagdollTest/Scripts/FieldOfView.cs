@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DisablerAi;
 
 public class FieldOfView : MonoBehaviour
 {
+    public Enemy ai;
+
     //Handle rotation of fov towards target
     Quaternion original_Rotation;
 
@@ -15,7 +18,7 @@ public class FieldOfView : MonoBehaviour
     public LayerMask targetMask;
     public LayerMask obstacleMask;
 
-   // [HideInInspector]
+    // [HideInInspector]
     public List<Transform> visibleTargets = new List<Transform>();
 
     void Start()
@@ -24,15 +27,19 @@ public class FieldOfView : MonoBehaviour
         StartCoroutine("FindTargetsWithDelay", .2f);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (visibleTargets.Count > 0)
         {
             transform.LookAt(visibleTargets[visibleTargets.Count - 1]);
         }
+        else if (ai.ai.State == RobotAiState.AlertReposition || ai.ai.State == RobotAiState.AlertFollowUp)
+        {
+            transform.localRotation = original_Rotation;
+            transform.rotation *= Quaternion.Euler(0, -5.32f, 0);
+        }
         else
             transform.localRotation = original_Rotation;
-
     }
 
     IEnumerator FindTargetsWithDelay(float delay)
@@ -62,13 +69,11 @@ public class FieldOfView : MonoBehaviour
                 {
                     visibleTargets.Add(target);
                     canSee = true;
-                   // Debug.Log("sees a target");
+                    // Debug.Log("sees a target");
                 }
             }
         }
     }
-
-
 
     public Vector3 DirFromAngle(float angleInDegrees, bool angleIsGlobal)
     {

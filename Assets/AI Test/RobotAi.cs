@@ -44,12 +44,12 @@ namespace DisablerAi
 
                 // Searching State Machine
                 case RobotAiState.Searching:
-
+                    Debug.Log("Can we search????");
                     if (State == RobotAiState.AlertFollowUp)
                     {
-                        if (!Robot.CanSee() && !Robot.CanHear())
+                        if (!Robot.CanSee())// && !Robot.CanHear())
                         {
-                            if ((DateTime.Now - TimeMarker).TotalMinutes >= 1)
+                            if ((DateTime.Now - TimeMarker).TotalSeconds >= 2)
                                 return true;
                         }
                     }

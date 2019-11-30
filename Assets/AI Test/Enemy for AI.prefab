@@ -43,6 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02d2b40aa7fb65e4086eb3e18af2f2ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ai: {fileID: 0}
   canSee: 0
   viewRadius: 9.2
   viewAngle: 60
@@ -7054,7 +7055,9 @@ MonoBehaviour:
   pointsOfInterest: []
   firePoint: {fileID: 367676617054588005}
   bullet: {fileID: 3685656760645559950, guid: 53e1d27de140d864e8f89ffdc93ab7b3, type: 3}
+  rotateOffset: 31.5
   health: 5
+  jointRigidBodies: []
 --- !u!195 &179233777
 NavMeshAgent:
   m_ObjectHideFlags: 0

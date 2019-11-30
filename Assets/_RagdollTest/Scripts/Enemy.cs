@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour
     /**Initialize AI*/
 
     [Header("AI")]
+    //public bool inactive;   /**Is the Ai even on?*/
     public Robot robot;                              /**Robot properties (health, patrol points, etc)*/
     public float walkSpeed;
     public float runSpeed;
@@ -21,7 +22,7 @@ public class Enemy : MonoBehaviour
     EnemyHead head;                          /**Get the robot's head component for the AI*/
     public GameObject playerObj;                     /**Reference to the player*/
 
-    private RobotAi ai;                                      /**Main AI state machine*/
+    public RobotAi ai;                                      /**Main AI state machine*/
     private Player player;                                   /**Reference to player for ai code*/
 
     [Header("Paths")]
@@ -30,6 +31,7 @@ public class Enemy : MonoBehaviour
 
     public Transform patrolEnd;                      /**Point B for AI path*/
     public Transform[] pointsOfInterest;             /**A list of points for the AI to go to should the player be hidden during alert*/
+    int nextPOI;                                /**Next point of interest to go to*/
 
     private List<Location> pois;                             /**Points of interest list for ai code*/
 
@@ -44,7 +46,7 @@ public class Enemy : MonoBehaviour
 
     SkinnedMeshRenderer jointMeshRenderer;       /**mesh renderer to turn body blue upon being hit*/
 
-    private Rigidbody[] jointRigidBodies;                   /**List of joints for the robot's ragdoll (Used to register hits)*/
+    public Rigidbody[] jointRigidBodies;                   /**List of joints for the robot's ragdoll (Used to register hits)*/
     Color defaultColor;
 
     Animator anim;
@@ -135,9 +137,6 @@ public class Enemy : MonoBehaviour
                 // Smoothly rotate towards the target point.
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 4 * Time.deltaTime);
 
-                //transform.LookAt(playerObj.transform.position);
-
-
                 //Play Animation
                 anim.SetTrigger("Alert!");
                 anim.SetFloat("Alert Transition", anim.GetFloat("Alert Transition") + 0.012f);
@@ -157,6 +156,7 @@ public class Enemy : MonoBehaviour
                 break;
 
             case RobotAiState.AlertAttack:
+                nextPOI = 0;
                 agent.ResetPath();
                 //Rotate towards player
                 var targetRotation3 = Quaternion.LookRotation(playerObj.transform.position - transform.position);
@@ -164,8 +164,7 @@ public class Enemy : MonoBehaviour
 
                 // Smoothly rotate towards the target point.
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation3, 4 * Time.deltaTime);
-                //transform.LookAt(playerObj.transform.position);
-                //transform.rotation *= Quaternion.Euler(0, 35, 0);
+
                 if (!firing)
                     StartCoroutine(BurstFire());
                 break;
@@ -184,16 +183,29 @@ public class Enemy : MonoBehaviour
 
             case RobotAiState.AlertFollowUp:
                 //Rotate towards last seen position
-                //fov.gameObject.transform.rotation *= Quaternion.Euler(0, rotateOffset, 0);
 
-                var targetRotation5 = Quaternion.LookRotation(ai.PlayerLocations.Last().Location.Position - transform.position);
+                //fov.gameObject.transform.rotation *= Quaternion.Euler(0, rotateOffset, 0);
+                var targetRotation5 = Quaternion.LookRotation(ai.Robot.Target.Position - transform.position);
                 targetRotation5 *= Quaternion.Euler(0, rotateOffset, 0);
 
                 // Smoothly rotate towards the target point.
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation5, 4 * Time.deltaTime);
 
                 //Move towards last seen position
-                agent.SetDestination(ai.PlayerLocations.Last().Location.Position);
+                agent.SetDestination(ai.Robot.Target.Position);
+
+                //If we got to the player and we don't find him, go to points of interest
+                if (ai.Robot.ReachedTarget() && ai.Robot.CanSee() == false)
+                {
+                    if (pointsOfInterest.Length > 0 && nextPOI < pointsOfInterest.Length)
+                    {
+                        ai.Robot.Target.Position = pointsOfInterest[nextPOI].position;
+                        nextPOI++;
+                    }
+                    else
+                        ai.State = RobotAiState.Suspicion;
+                }
+
                 break;
 
             case RobotAiState.Patrol:
@@ -259,11 +271,15 @@ public class Enemy : MonoBehaviour
                 break;
 
             case RobotAiState.Hurt:
+                if (anim.enabled == true)
+                anim.SetTrigger("Hurt");
                 robot.PlayingAnimation = RobotAnimation.HurtStagger;
                 break;
 
             case RobotAiState.Disabled:
                 //Ragdoll
+                anim.enabled = false;
+                agent.enabled = false;
                 robot.PlayingAnimation = RobotAnimation.RagDoll;
                 foreach (Rigidbody rb in jointRigidBodies)
                 {
