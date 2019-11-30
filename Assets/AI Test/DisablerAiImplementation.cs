@@ -100,11 +100,7 @@ namespace DisablerAi_Implemented
             this.PatrolEnd = patrolEnd;
             this.headFOV = fov;
 
-            //Cast Locations to ILocations in list, then assign
-            foreach (Location PoI in pointsOfInterest)
-            {
-                this.PointsOfInterest.Add(PoI);
-            }
+            this.PointsOfInterest = pointsOfInterest;
 
             PlayingAnimation = RobotAnimation.None; //Start as stationary
             this.Head = head;

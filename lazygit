@@ -1,0 +1,14 @@
+#!/bin/bash
+#lazygit - add commit and push in one easy command
+
+printf "Enter branch name to push to: \n"
+read branch
+
+printf "\nEnter commit message: \n"
+read message
+
+git add --all
+git commit -am "$message"
+git push origin $branch
+
+

@@ -168,6 +168,8 @@ namespace DisablerAi
                         {
                             return true;
                         }
+                        if ((DateTime.Now - TimeMarker).TotalSeconds >= 4)
+                            return true;
                     }
 
                     return false;

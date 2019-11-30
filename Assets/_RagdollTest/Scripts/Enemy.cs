@@ -128,7 +128,7 @@ public class Enemy : MonoBehaviour
                 agent.speed = runSpeed;
 
                 //Rotate towards player
-               // agent.updateRotation = false;
+                // agent.updateRotation = false;
                 var targetRotation = Quaternion.LookRotation(playerObj.transform.position - transform.position);
                 targetRotation *= Quaternion.Euler(0, rotateOffset, 0);
 
@@ -178,10 +178,14 @@ public class Enemy : MonoBehaviour
                 // Smoothly rotate towards the target point.
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation4, 4 * Time.deltaTime);
                 agent.SetDestination(robot.Target.Position);
+
+
                 break;
 
             case RobotAiState.AlertFollowUp:
                 //Rotate towards last seen position
+                //fov.gameObject.transform.rotation *= Quaternion.Euler(0, rotateOffset, 0);
+
                 var targetRotation5 = Quaternion.LookRotation(ai.PlayerLocations.Last().Location.Position - transform.position);
                 targetRotation5 *= Quaternion.Euler(0, rotateOffset, 0);
 

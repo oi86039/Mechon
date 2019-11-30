@@ -42,7 +42,7 @@ public class playerCollisions : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.layer == 15) //15 = enemy bullet
+        if (other.gameObject.layer == 15 && health > 0) //15 = enemy bullet
         {
             Debug.Log("PLAYER HIT, AHHHHHHHHH");
             health--;
