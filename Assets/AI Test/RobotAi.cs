@@ -154,7 +154,7 @@ namespace DisablerAi
                     return false;
 
                 case RobotAiState.AlertAttack:
-                    if (State == RobotAiState.AlertCallHeadQuarters)
+                    if (State == RobotAiState.AlertCallHeadQuarters || (State == RobotAiState.AlertFollowUp && Robot.CanSee()))
                     {
                         // Once we've finished alerting everyone, start attacking
                         if (Robot.PlayingAnimation != RobotAnimation.AlertCallHeadQuarters)
@@ -647,6 +647,8 @@ namespace DisablerAi
 
         void PlayerLocationUpdate()
         {
+            Debug.Log("PLAYER LOCATION UPDATE");
+
             var location = new PlayerLocation(
                 DateTime.Now,
                 Player.Location,

@@ -2,6 +2,7 @@
 using DisablerAi_Implemented;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -37,6 +38,7 @@ public class Enemy : MonoBehaviour
     public Transform firePoint; //Point in which the projectile of the robot will fire from
     public GameObject bullet;
 
+    public float rotateOffset = 31.5f; //Offset for rotation
 
     public int health;                            //replace with ai.health
 
@@ -126,9 +128,9 @@ public class Enemy : MonoBehaviour
                 agent.speed = runSpeed;
 
                 //Rotate towards player
-                agent.updateRotation = false;
+               // agent.updateRotation = false;
                 var targetRotation = Quaternion.LookRotation(playerObj.transform.position - transform.position);
-                targetRotation *= Quaternion.Euler(0, 35, 0);
+                targetRotation *= Quaternion.Euler(0, rotateOffset, 0);
 
                 // Smoothly rotate towards the target point.
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 4 * Time.deltaTime);
@@ -144,7 +146,7 @@ public class Enemy : MonoBehaviour
             case RobotAiState.AlertCallHeadQuarters:
                 //Rotate towards player
                 var targetRotation2 = Quaternion.LookRotation(playerObj.transform.position - transform.position);
-                targetRotation2 *= Quaternion.Euler(0, 35, 0);
+                targetRotation2 *= Quaternion.Euler(0, rotateOffset, 0);
 
                 // Smoothly rotate towards the target point.
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation2, 4 * Time.deltaTime);
@@ -155,9 +157,10 @@ public class Enemy : MonoBehaviour
                 break;
 
             case RobotAiState.AlertAttack:
+                agent.ResetPath();
                 //Rotate towards player
                 var targetRotation3 = Quaternion.LookRotation(playerObj.transform.position - transform.position);
-                targetRotation3 *= Quaternion.Euler(0, 35, 0);
+                targetRotation3 *= Quaternion.Euler(0, rotateOffset, 0);
 
                 // Smoothly rotate towards the target point.
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation3, 4 * Time.deltaTime);
@@ -168,8 +171,9 @@ public class Enemy : MonoBehaviour
                 break;
 
             case RobotAiState.AlertReposition:
+                //Rotate towards player
                 var targetRotation4 = Quaternion.LookRotation(playerObj.transform.position - transform.position);
-                targetRotation4 *= Quaternion.Euler(0, 35, 0);
+                targetRotation4 *= Quaternion.Euler(0, rotateOffset, 0);
 
                 // Smoothly rotate towards the target point.
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation4, 4 * Time.deltaTime);
@@ -177,11 +181,15 @@ public class Enemy : MonoBehaviour
                 break;
 
             case RobotAiState.AlertFollowUp:
-                var targetRotation5 = Quaternion.LookRotation(playerObj.transform.position - transform.position);
-                targetRotation5 *= Quaternion.Euler(0, 35, 0);
+                //Rotate towards last seen position
+                var targetRotation5 = Quaternion.LookRotation(ai.PlayerLocations.Last().Location.Position - transform.position);
+                targetRotation5 *= Quaternion.Euler(0, rotateOffset, 0);
 
                 // Smoothly rotate towards the target point.
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation5, 4 * Time.deltaTime);
+
+                //Move towards last seen position
+                agent.SetDestination(ai.PlayerLocations.Last().Location.Position);
                 break;
 
             case RobotAiState.Patrol:
@@ -283,7 +291,10 @@ public class Enemy : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             Debug.Log("FIRE");
-            Instantiate(bullet, firePoint.transform.position, firePoint.transform.rotation);
+            var b = Instantiate(bullet, firePoint.transform.position, firePoint.transform.rotation);
+            bullet bb = b.GetComponent<bullet>();
+            bb.player = playerObj;
+            bb.homing = true;
             i++;
             yield return new WaitForSeconds(0.08f);
         }

@@ -6,8 +6,8 @@ using UnityEngine.SceneManagement;
 public class Gun : MonoBehaviour
 {
 
-  //  public Disabler disabler;                      /**Disabler component for AI code*/
-
+    //  public Disabler disabler;                      /**Disabler component for AI code*/
+    public GameObject player;
     public GameObject bullet;
     public ParticleSystem shootFX;
     public Transform bulletSpawnPoint;
@@ -60,7 +60,10 @@ public class Gun : MonoBehaviour
             if (recoil.GetBool("StayOpen") == false)
             {
                 Debug.Log("Fire");
-                Instantiate(bullet, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+                var b = Instantiate(bullet, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+                bullet bb = b.GetComponent<bullet>();
+                bb.player = player;
+                bb.homing = false;
                 recoil.SetTrigger("Fire");
                 shootFX.Play();
                 BroadcastMessage("SubtractAmmo");

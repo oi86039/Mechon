@@ -42,10 +42,11 @@ public class playerCollisions : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.layer == 10)
+        if (other.gameObject.layer == 15) //15 = enemy bullet
         {
             Debug.Log("PLAYER HIT, AHHHHHHHHH");
             health--;
+            anim.SetTrigger("Hurt");
         }
         if (health <= 0)
         {
@@ -53,10 +54,7 @@ public class playerCollisions : MonoBehaviour
             anim.SetBool("Death", true);
             StartCoroutine(Death());
         }
-        else
-        {
-            anim.SetTrigger("Hurt");
-        }
+       
     }
 
     private IEnumerator Death()

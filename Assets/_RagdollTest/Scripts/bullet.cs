@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class bullet : MonoBehaviour
 {
+    public GameObject player;
+    public bool homing; //Give the bullet a slight homing property?
+    bool homedOnAlready = false; //Don't add homing force if already homes on before.
 
    public Rigidbody rb;
     public float speed;
@@ -15,7 +18,7 @@ public class bullet : MonoBehaviour
     float timer;
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
     }
 
@@ -24,9 +27,14 @@ public class bullet : MonoBehaviour
     {
         timer += Time.deltaTime;
 
+        if (!homedOnAlready) {
+            homedOnAlready = true;
+            transform.LookAt(player.transform.position);
+        }
+
         if (rb.velocity.sqrMagnitude < speed * speed)
         {
-            rb.AddRelativeForce(Vector3.up * speed, ForceMode.Force);
+            rb.AddRelativeForce(Vector3.forward * speed, ForceMode.Force);
         }
 
         if (timer >= time)
