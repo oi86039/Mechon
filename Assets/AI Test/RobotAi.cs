@@ -10,6 +10,7 @@ namespace DisablerAi
     {
         public bool HasHeldUpDemandBeenMade { get; set; } = false;
         public bool HasHeldUpSentToGround { get; set; } = false;
+        public bool calledForAlert;
         public Robot Robot { get; set; }
         public Player Player { get; set; }
         public RobotAiState State { get; set; }
@@ -139,6 +140,9 @@ namespace DisablerAi
                         if (Robot.CanSee() && distance < 15.0f)
                             return true;
                     }
+
+                    if (calledForAlert)
+                        return true;
 
                     return false;
 

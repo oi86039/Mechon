@@ -202,8 +202,8 @@ public class Enemy : MonoBehaviour
                         ai.Robot.Target.Position = pointsOfInterest[nextPOI].position;
                         nextPOI++;
                     }
-                    else
-                        ai.State = RobotAiState.Suspicion;
+                    else //If we explored all points of interest without finding the player, give up.
+                        ai.State = RobotAiState.Patrol;
                 }
 
                 break;
@@ -272,7 +272,7 @@ public class Enemy : MonoBehaviour
 
             case RobotAiState.Hurt:
                 if (anim.enabled == true)
-                anim.SetTrigger("Hurt");
+                    anim.SetTrigger("Hurt");
                 robot.PlayingAnimation = RobotAnimation.HurtStagger;
                 break;
 
@@ -286,6 +286,7 @@ public class Enemy : MonoBehaviour
                     rb.isKinematic = false; //Enable Ragdoll
                                             // anim.enabled = false;
                 }
+                Destroy(this);
                 break;
         }
     }
@@ -301,7 +302,29 @@ public class Enemy : MonoBehaviour
     IEnumerator AlertCallHeadQuarters()
     {
         robot.PlayingAnimation = RobotAnimation.AlertCallHeadQuarters;
+
+        Enemy[] robotList = FindObjectsOfType<Enemy>();
+
+        //Set all robots to alert
+        foreach (Enemy r in robotList)
+        {
+            if (r.ai.State != RobotAiState.Alert && r.ai.State != RobotAiState.AlertAttack &&
+                r.ai.State != RobotAiState.AlertCallHeadQuarters && r.ai.State != RobotAiState.AlertFollowUp &&
+                r.ai.State != RobotAiState.AlertReposition)
+
+                r.ai.calledForAlert = true;
+            r.robot.PlayingAnimation = RobotAnimation.None;
+        }
+
         yield return new WaitForSeconds(0.02f);
+
+        //Set call off
+        foreach (Enemy r in robotList)
+        {
+            r.ai.calledForAlert = false;
+            r.robot.PlayingAnimation = RobotAnimation.None;
+        }
+
         robot.PlayingAnimation = RobotAnimation.None;
     }
 
