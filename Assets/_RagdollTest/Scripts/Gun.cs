@@ -62,7 +62,7 @@ public class Gun : MonoBehaviour
                 Debug.Log("Fire");
                 var b = Instantiate(bullet, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
                 bullet bb = b.GetComponent<bullet>();
-                bb.player = player;
+//                bb.playerHitbox = playerHitbox;
                 bb.homing = false;
                 recoil.SetTrigger("Fire");
                 shootFX.Play();

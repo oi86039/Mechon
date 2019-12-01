@@ -30,7 +30,7 @@ public class EnemyHead : EnemyJoint
             //else SendMessageUpwards("Die");
         }
 
-        else if (other.gameObject.layer == 10 || other.gameObject.layer == 11)
+        else if (other.gameObject.layer == 10 || other.gameObject.layer == 12 || other.gameObject.layer == 9 || other.gameObject.layer == 11)
         { //Shot with bullet or item
             head.Shot = true; //Player was headshot
             Debug.Log("Head Shot @ " + gameObject.name);
@@ -47,7 +47,7 @@ public class EnemyHead : EnemyJoint
             //    SendMessageUpwards("DieNow");
             //else SendMessageUpwards("Die");
         }
-        else if (other.gameObject.layer == 10 || other.gameObject.layer == 11)
+        else if (other.gameObject.layer == 10 || other.gameObject.layer == 12 || other.gameObject.layer == 9 || other.gameObject.layer == 11)
         { //Shot with bullet or item
             head.Shot = true; //Player was headshot
             Debug.Log("Head Shot @ " + gameObject.name);

@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class bullet : MonoBehaviour
 {
-    public GameObject player;
+    public Transform player;
     public bool homing; //Give the bullet a slight homing property?
     bool homedOnAlready = false; //Don't add homing force if already homes on before.
 
-   public Rigidbody rb;
+    public Rigidbody rb;
     public float speed;
     public float explosionForce;
     public float explosionRadius;
@@ -27,14 +27,18 @@ public class bullet : MonoBehaviour
     {
         timer += Time.deltaTime;
 
-        if (!homedOnAlready) {
+        if (homing && !homedOnAlready)
+        {
             homedOnAlready = true;
-            transform.LookAt(player.transform.position);
+            transform.LookAt(player.position + new Vector3(0, 1.3f, 0));
         }
 
         if (rb.velocity.sqrMagnitude < speed * speed)
         {
-            rb.AddRelativeForce(Vector3.forward * speed, ForceMode.Force);
+            if (homing)
+                rb.AddRelativeForce(Vector3.forward * speed, ForceMode.Force);
+            else
+                rb.AddRelativeForce(Vector3.up * speed, ForceMode.Force);
         }
 
         if (timer >= time)
@@ -44,10 +48,10 @@ public class bullet : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-        
-            rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
+
+        rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
         //Play particle explosion effect at position
-        Instantiate(explosionFX,transform.position, transform.rotation);
+        Instantiate(explosionFX, transform.position, transform.rotation);
         //StartCoroutine(Destroy());
         Destroy(gameObject);
     }

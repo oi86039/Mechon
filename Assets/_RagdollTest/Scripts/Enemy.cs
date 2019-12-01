@@ -17,6 +17,8 @@ public class Enemy : MonoBehaviour
     public float runSpeed;
     bool firing; /**Is the robot firing his gun?*/
 
+    float hurtTimer; /**Cooldown time of getting hurt that resets upon being shot*/
+
     FieldOfView fov;                             /**Field of view script allowing for visual detection*/
 
     EnemyHead head;                          /**Get the robot's head component for the AI*/
@@ -107,7 +109,7 @@ public class Enemy : MonoBehaviour
         {
             ai.State = RobotAiState.Inactive;
         }
-        
+
         //Update animation (patrol)
         anim.SetFloat("Speed", agent.velocity.magnitude / agent.speed);
 
@@ -287,10 +289,14 @@ public class Enemy : MonoBehaviour
                 break;
 
             case RobotAiState.Hurt:
-                if (anim.enabled == true)
-                    anim.SetTrigger("Hurt");
-                robot.PlayingAnimation = RobotAnimation.HurtStagger;
-                break;
+                agent.ResetPath();
+                hurtTimer -= Time.deltaTime;
+                if (hurtTimer <= 0) {
+                    hurtTimer = 1.75f;
+                        ai.Robot.Shot = false;
+                    ai.Robot.PlayingAnimation = RobotAnimation.None;
+                }
+                    break;
 
             case RobotAiState.Disabled:
                 //Ragdoll
@@ -310,6 +316,10 @@ public class Enemy : MonoBehaviour
     private void Shot() //Call when hitting the body
     {
         ai.Robot.Shot = true;
+        ai.Robot.Health--;
+        hurtTimer = 1.75f;
+        anim.SetTrigger("Hurt");
+        ai.Robot.PlayingAnimation = RobotAnimation.HurtStagger;
         //Flash blue if hit
         if (ai.State != RobotAiState.Disabled)
             jointMeshRenderer.material.color = Color.cyan;
@@ -347,12 +357,12 @@ public class Enemy : MonoBehaviour
     IEnumerator BurstFire()
     {
         firing = true;
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 2; i++)
         {
             Debug.Log("FIRE");
             var b = Instantiate(bullet, firePoint.transform.position, firePoint.transform.rotation);
             bullet bb = b.GetComponent<bullet>();
-            bb.player = playerObj;
+            bb.player = playerObj.transform;
             bb.homing = true;
             i++;
             yield return new WaitForSeconds(0.08f);
@@ -364,7 +374,6 @@ public class Enemy : MonoBehaviour
 
     IEnumerator AnimatorTransition(bool inAlert)
     {
-
         if (inAlert)
         {
             while (anim.GetFloat("Alert Transition") < 1)

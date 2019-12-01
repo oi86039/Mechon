@@ -141,8 +141,19 @@ namespace DisablerAi
                             return true;
                     }
 
-                    if (calledForAlert)
+                    if (calledForAlert) /*Set all robots to alert when AlertCallHeadQuarters is initiated*/
                         return true;
+
+                    if (this.State == RobotAiState.Hurt) //As soon as the hurt animation is over, go to alert
+                    {
+                        if (this.Robot.PlayingAnimation == RobotAnimation.HurtStagger)
+                            return false;
+
+                        if ((DateTime.Now - this.TimeMarker).TotalSeconds < 2)
+                            return false;
+
+                        return true;
+                    }
 
                     return false;
 
@@ -205,6 +216,7 @@ namespace DisablerAi
                     return false;
                 // Suspicion State Machine
                 case RobotAiState.Suspicion:
+                    return false; //Get rid of suspicion
                     if (this.State == RobotAiState.Patrol)
                     {
                         float distance = Robot.Location.DistanceFrom(Player.Location);
@@ -515,14 +527,14 @@ namespace DisablerAi
         private void ThinkHurt()
         {
             Robot.PlayingAnimation = RobotAnimation.HurtStagger;
-            Robot.Health -= 1;
+            //Robot.Health -= 1;
             TimeMarker = DateTime.Now;
         }
 
         private void ThinkDisable()
         {
             Robot.PlayingAnimation = RobotAnimation.RagDoll;
-            Robot.Health = 0;
+          //  Robot.Health = 0;
             Robot.DetectionLineOfSight = false;
             Robot.DetectionAudio = false;
         }
