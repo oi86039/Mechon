@@ -657,7 +657,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.87, y: -1.1}
+  m_AnchoredPosition: {x: -0, y: -1.1}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5511157130913714679
@@ -5853,7 +5853,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.99998474, y: 4.299}
+  m_AnchoredPosition: {x: -0.040000916, y: 4.299}
   m_SizeDelta: {x: -48.777, y: -29.937}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5511157131500125155
@@ -6387,6 +6387,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b563861a9a7ed9844b8e49eb6e5d58a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   bullet: {fileID: 3685656760645559950, guid: 58661b602356cb14a95370b48e52a76b, type: 3}
   shootFX: {fileID: 5511157131235970173}
   bulletSpawnPoint: {fileID: 5511157132437925930}
@@ -6406,6 +6407,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c613f02863ee67644928858ca3ad5b88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LeftGrabber: {fileID: 0}
+  LeftAnchor: {fileID: 0}
+  RightGrabber: {fileID: 0}
+  RightAnchor: {fileID: 0}
   grabbable: {fileID: 5511157132672094813}
   canSnap: 1
   hologram: {fileID: 0}
