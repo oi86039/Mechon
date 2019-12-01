@@ -1,10 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DisablerAi;
 
 public class FieldOfView : MonoBehaviour
 {
+    public Enemy ai;
 
+    //Handle rotation of fov towards target
+    Quaternion original_Rotation;
+
+    public bool canSee; /**True if seeing at least one target. False otherwise.*/
     public float viewRadius;
     [Range(0, 360)]
     public float viewAngle;
@@ -12,14 +18,29 @@ public class FieldOfView : MonoBehaviour
     public LayerMask targetMask;
     public LayerMask obstacleMask;
 
-    [HideInInspector]
+    // [HideInInspector]
     public List<Transform> visibleTargets = new List<Transform>();
 
     void Start()
     {
+        original_Rotation = transform.localRotation;
         StartCoroutine("FindTargetsWithDelay", .2f);
     }
 
+    private void FixedUpdate()
+    {
+        if (visibleTargets.Count > 0)
+        {
+            transform.LookAt(visibleTargets[visibleTargets.Count - 1]);
+        }
+        else if (ai.ai.State == RobotAiState.AlertReposition || ai.ai.State == RobotAiState.AlertFollowUp)
+        {
+            transform.localRotation = original_Rotation;
+            transform.rotation *= Quaternion.Euler(0, -40.32f, 0);
+        }
+        else
+            transform.localRotation = original_Rotation;
+    }
 
     IEnumerator FindTargetsWithDelay(float delay)
     {
@@ -33,6 +54,7 @@ public class FieldOfView : MonoBehaviour
     void FindVisibleTargets()
     {
         visibleTargets.Clear();
+        canSee = false;
         Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
 
         for (int i = 0; i < targetsInViewRadius.Length; i++)
@@ -46,13 +68,12 @@ public class FieldOfView : MonoBehaviour
                 if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
                 {
                     visibleTargets.Add(target);
-                    Debug.Log("sees a target");
+                    canSee = true;
+                    // Debug.Log("sees a target");
                 }
             }
         }
     }
-
-
 
     public Vector3 DirFromAngle(float angleInDegrees, bool angleIsGlobal)
     {

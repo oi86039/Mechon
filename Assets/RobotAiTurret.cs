@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RobotAi : MonoBehaviour
+public class RobotAiTurret : MonoBehaviour
 {
     public GameObject bullet;
     public GameObject robot;
@@ -105,9 +105,9 @@ public class RobotAi : MonoBehaviour
         }
 
         //Destroy this AI script if enemy is dead
-        if (enemyScript.dead)
-        {
-            Destroy(this);
-        }
+       // if (enemyScript.dead)
+      //  {
+        //    Destroy(this);
+       // }
     }
 }
