@@ -54,7 +54,10 @@ public class playerCollisions : MonoBehaviour
             anim.SetBool("Death", true);
             StartCoroutine(Death());
         }
-       
+        if (other.gameObject.layer == 9) //9 = Gun
+        {
+            Physics.IgnoreCollision(other.collider, this.gameObject.GetComponent<Collider>());
+        }
     }
 
     private IEnumerator Death()

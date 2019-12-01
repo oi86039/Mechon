@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour
     /**Initialize AI*/
 
     [Header("AI")]
-    //public bool inactive;   /**Is the Ai even on?*/
+    public bool inactive;   /**Is the Ai even on?*/
     public Robot robot;                              /**Robot properties (health, patrol points, etc)*/
     public float walkSpeed;
     public float runSpeed;
@@ -101,6 +101,13 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
+        //Trigger if robot is acting or not
+        anim.SetBool("Inactive", inactive);
+        if (inactive)
+        {
+            ai.State = RobotAiState.Inactive;
+        }
+        
         //Update animation (patrol)
         anim.SetFloat("Speed", agent.velocity.magnitude / agent.speed);
 
