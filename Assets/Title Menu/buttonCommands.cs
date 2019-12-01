@@ -10,6 +10,7 @@ public class buttonCommands : MonoBehaviour
     public GameObject mechonLogo;
 
 	public Animator anime;
+    public GameObject tutorialStart;
 	
     // Start is called before the first frame update
     void Start()
@@ -17,7 +18,16 @@ public class buttonCommands : MonoBehaviour
         
     }
 
-	public void Settings() {
+    private void Update()
+    {
+        Vector2 x_joy = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick);
+        if (x_joy.x != 0 || x_joy.y != 0 ) //if left trigger is used
+        {
+            tutorialStart.SetActive(false);
+        }
+    }
+
+    public void Settings() {
 	}
 
 	public void Exit() {
@@ -34,6 +44,8 @@ public class buttonCommands : MonoBehaviour
 	
 	public void pressMe() {
         anime.SetTrigger("ifPressed");
+        tutorialStart.SetActive(true);
+
 	}
 
     public void OnTriggerEnter(Collider other)

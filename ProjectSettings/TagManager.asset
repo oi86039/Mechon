@@ -5,7 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ammo
-  - Floor
+  - teleport
+  - buttonStart
+  - pickup
+  - aiming
   layers:
   - Default
   - TransparentFX
