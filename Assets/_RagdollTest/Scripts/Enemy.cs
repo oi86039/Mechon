@@ -138,8 +138,9 @@ public class Enemy : MonoBehaviour
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 4 * Time.deltaTime);
 
                 //Play Animation
+                anim.SetFloat("Unalert Transition", 0);
                 anim.SetTrigger("Alert!");
-                anim.SetFloat("Alert Transition", anim.GetFloat("Alert Transition") + 0.012f);
+                StartCoroutine(AnimatorTransition(true));
                 break;
 
             case RobotAiState.AlertCallHeadQuarters:
@@ -209,6 +210,14 @@ public class Enemy : MonoBehaviour
                 break;
 
             case RobotAiState.Patrol:
+                //Reset Alert Animations
+                anim.SetFloat("Alert Transition", 0);
+                anim.SetTrigger("Unalert");
+
+                StartCoroutine(AnimatorTransition(false));
+
+                agent.speed = walkSpeed;
+
                 break;
 
             case RobotAiState.PatrolMarchToEnd:
@@ -344,6 +353,27 @@ public class Enemy : MonoBehaviour
         Debug.Log("Burst cooldown...");
         yield return new WaitForSeconds(0.7f);
         firing = false;
+    }
+
+    IEnumerator AnimatorTransition(bool inAlert)
+    {
+
+        if (inAlert)
+        {
+            while (anim.GetFloat("Alert Transition") < 1)
+            {
+                anim.SetFloat("Alert Transition", anim.GetFloat("Alert Transition") + 0.012f);
+                yield return new WaitForEndOfFrame();
+            }
+        }
+        else
+        {
+            while (anim.GetFloat("Unalert Transition") < 1)
+            {
+                anim.SetFloat("Unalert Transition", anim.GetFloat("Unalert Transition") + 0.012f);
+                yield return new WaitForEndOfFrame();
+            }
+        }
     }
 
 }
