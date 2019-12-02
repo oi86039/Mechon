@@ -194,12 +194,12 @@ public class Enemy : MonoBehaviour
             case RobotAiState.AlertFollowUp:
                 //Rotate towards last seen position
 
-                //fov.gameObject.transform.rotation *= Quaternion.Euler(0, rotateOffset, 0);
-                var targetRotation5 = Quaternion.LookRotation(ai.Robot.Target.Position - transform.position);
-                targetRotation5 *= Quaternion.Euler(0, rotateOffset, 0);
+                ////fov.gameObject.transform.rotation *= Quaternion.Euler(0, rotateOffset, 0);
+                //var targetRotation5 = Quaternion.LookRotation(ai.Robot.Target.Position - transform.position);
+                //targetRotation5 *= Quaternion.Euler(0, rotateOffset, 0);
 
-                // Smoothly rotate towards the target point.
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation5, 4 * Time.deltaTime);
+                //// Smoothly rotate towards the target point.
+                //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation5, 4 * Time.deltaTime);
 
                 //Move towards last seen position
                 agent.SetDestination(ai.Robot.Target.Position);

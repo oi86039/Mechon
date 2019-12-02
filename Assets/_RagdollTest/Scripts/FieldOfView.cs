@@ -5,7 +5,7 @@ using DisablerAi;
 
 public class FieldOfView : MonoBehaviour
 {
-    public Enemy ai;
+    //public Enemy ai;
 
     //Handle rotation of fov towards target
     Quaternion original_Rotation;
@@ -33,11 +33,11 @@ public class FieldOfView : MonoBehaviour
         {
             transform.LookAt(visibleTargets[visibleTargets.Count - 1]);
         }
-        else if (ai.ai.State == RobotAiState.AlertReposition || ai.ai.State == RobotAiState.AlertFollowUp)
-        {
-            transform.localRotation = original_Rotation;
-            transform.rotation *= Quaternion.Euler(0, -40.32f, 0);
-        }
+        //else if (ai.ai.State == RobotAiState.AlertReposition || ai.ai.State == RobotAiState.AlertFollowUp)
+        //{
+        //    transform.localRotation = original_Rotation;
+        //    transform.rotation *= Quaternion.Euler(0, -40.32f, 0);
+        //}
         else
             transform.localRotation = original_Rotation;
     }
