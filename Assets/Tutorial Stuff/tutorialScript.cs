@@ -21,7 +21,7 @@ public class tutorialScript : MonoBehaviour
     // Update is called once per frame
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "pickup")
+        if (other.gameObject.CompareTag("pickup"))
         {
             rightTrigger.SetActive(true);
             Destroy(other);
@@ -33,7 +33,7 @@ public class tutorialScript : MonoBehaviour
         //    Destroy(other);
         //}
 
-        if (other.tag == "aiming")
+        if (other.gameObject.CompareTag("aiming"))
         {
             aimForHead.SetActive(true);
             Destroy(other);
@@ -44,7 +44,7 @@ public class tutorialScript : MonoBehaviour
     {
         //pickup gun
         float trigger = OVRInput.Get(OVRInput.Axis1D.SecondaryHandTrigger);
-        if (trigger > 0)
+        if (trigger > 0.3)
         {
             rightTrigger.SetActive(false);
             scopes.SetActive(true);
@@ -53,7 +53,7 @@ public class tutorialScript : MonoBehaviour
 
         //shooting the gun/aiming for the head
         float backTrigger = OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger);
-        if (backTrigger > 0)
+        if (backTrigger > 0.3)
         {
             aimForHead.SetActive(false);
         }
