@@ -19,11 +19,6 @@ public class ObjectPlaySound : MonoBehaviour
         StartCoroutine("FindAudTargetsWithDelay", .2f);
     }
 
-    void Update()
-    {
-        
-    }
-
     IEnumerator FindAudTargetsWithDelay(float delay)
     {
         while (true)
@@ -59,7 +54,6 @@ public class ObjectPlaySound : MonoBehaviour
     void OnCollisionExit(Collision other)
     {
         isAudObjFound = false;
-        //StopCoroutine("FindAudTargetsWithDelay");
     }
 
     void CreateListenArea()
