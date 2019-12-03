@@ -424,6 +424,11 @@ PrefabInstance:
       propertyPath: m_BoundingSphereOverride.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1276822202145139336, guid: 383a988ab3736d147b607cfe9cbfdb87,
+        type: 3}
+      propertyPath: m_Range
+      value: 36.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 383a988ab3736d147b607cfe9cbfdb87, type: 3}
 --- !u!4 &8340306587021778373 stripped
