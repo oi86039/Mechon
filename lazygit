@@ -1,14 +1,10 @@
 #!/bin/bash
-#lazygit - add commit and push in one easy command
+#lazygit - add commit and push to current branch in one easy command
 
-if [ -z $1 ]; then
-	printf "Enter branch name to push to: \n"
-	read branch
-else
-	branch=$1
-fi
+branch=$(git branch | grep \*)
+branch=${$branch//* }
 
-printf "\nEnter commit message: \n"
+printf "\nCommitting to $branch.\n\nEnter commit message: \n"
 read message
 
 git add --all
