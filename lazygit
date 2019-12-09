@@ -2,7 +2,7 @@
 #lazygit - add commit and push to current branch in one easy command
 
 branch=$(git branch | grep \*)
-branch=${$branch//* }
+branch=${branch//\*\ /}
 
 printf "\nCommitting to $branch.\n\nEnter commit message: \n"
 read message
