@@ -14,6 +14,7 @@ public class Gun : MonoBehaviour
     public Animator scopeAnim;
     public TextMeshProUGUI ammoDisplay;
 
+    int i;
     //  public GameObject camera;
 
     public Animator recoil;
@@ -43,7 +44,9 @@ public class Gun : MonoBehaviour
         //Put this on the player controller/gun instead
         if (OVRInput.GetDown(OVRInput.Button.Start))
         {
-            SceneManager.LoadScene(0);
+            i++;
+            // SceneManager.LoadScene(0);
+            ScreenCapture.CaptureScreenshot("Screenshottttt"+i+".png");
         }
 
         if (!canFire)
